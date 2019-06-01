@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Юрий Бевов](https://up.htmlacademy.ru/javascript/17/user/772541).
-* Наставник: `Неизвестно`.
+* Наставник: `Дмитрий Невзоров`.
 
 ---
 
