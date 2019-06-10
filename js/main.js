@@ -1,5 +1,6 @@
 'use strict';
 
+//функция для создания случайных чисел от min до max
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -12,46 +13,48 @@ var arrayComments = ['Всё отлично!',
 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-var arrayPhotos = [];//создал массив объектов
+var comments = [];
+var arrayPhotos = [];
+var names = ['Артем', 'Юрий', 'Ирина', 'Карина', 'Руслан'];
 
 for (var i = 1; i <= 25; i++) {
   var url = 'photos/' + i + '.jpg';
   var likes = getRandomInt(15, 200);
 
-  var comments = [];
-  var names = ['Артем', 'Юрий', 'Ирина', 'Карина', 'Руслан'];
-
-  for (var j = 1; j <= arrayComments.length; j++) {
-    var avatar = 'url:(img/' + j + '.svg)';
-    var name = names[getRandomInt(0, names.length-1)];
-  };
-
-  var comment = arrayComments[getRandomInt(0, arrayComments.length-1)];
-
-  comments.push({avatar, name, comment});
-  arrayPhotos.push({url, likes, comments});
+  arrayPhotos.push({
+    url: url,
+    likes: likes,
+    comments: comments
+  });
 };
 
-console.log(arrayPhotos[5]);
+for (var j = 1; j <= arrayComments.length; j++) {//количество комментариев равно длине массива с комментариями
+  var avatar = 'url:(img/' + getRandomInt(0, j) + '.svg)';//случайная аватарка
+  var name = names[getRandomInt(0, names.length-1)];//случайное имя из массива имен
+  var comment = arrayComments[getRandomInt(0, arrayComments.length-1)];//случайный комментарий
 
-
-//не работает
-var img = document.querySelector('#picture').content.querySelector('.picture__img');
-img.setAttribute('src', url);
-var like = document.querySelector('#picture').content.querySelector('.picture__likes');
-like.textContent = likes;
-var picture_comment = document.querySelector('#picture').content.querySelector('.picture__comments');
-picture_comment.textContent = 'comment';
-
+  comments.push({
+    avatar: avatar,
+    name: name,
+    comment: comment
+  });
+};
 
 //вставка элементов на страницу
 var userPicture = document.querySelector('.pictures');
 
-var picturesContent = document.querySelector('#picture').content;
-console.log(userPicture);
-
 for (i = 0; i < arrayPhotos.length; i++) {
-  var userPhoto = picturesContent.cloneNode(true);
+  var userPhoto = document.querySelector('#picture').content.cloneNode(true);
+  var currentPhoto = arrayPhotos[i];
+  var currentComment = [];//массив с комментариями к текущей фотографии
+
+  for (var k = 0; k < getRandomInt(0, comments.length); k++) {// случайный выбор кол-ва комментариев, макс = длине comments
+  currentComment.push(comments[k]);
+}
+
+  userPhoto.querySelector('.picture__img').setAttribute('src', currentPhoto.url);
+  userPhoto.querySelector('.picture__likes').textContent = currentPhoto.likes;
+  userPhoto.querySelector('.picture__comments').textContent = currentComment.length;
   userPicture.appendChild(userPhoto);
 };
 
