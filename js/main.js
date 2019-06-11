@@ -49,8 +49,8 @@ for (i = 0; i < arrayPhotos.length; i++) {
   var currentComment = [];//массив с комментариями к текущей фотографии
 
   for (var k = 0; k < getRandomInt(0, comments.length); k++) {// случайный выбор кол-ва комментариев, макс = длине comments
-  currentComment.push(comments[k]);
-}
+    currentComment.push(comments[k]);
+  }
 
   userPhoto.querySelector('.picture__img').setAttribute('src', currentPhoto.url);
   userPhoto.querySelector('.picture__likes').textContent = currentPhoto.likes;
