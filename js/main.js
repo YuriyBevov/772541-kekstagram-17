@@ -47,6 +47,7 @@ for (var j = 1; j <= arrayComments.length; j++) { // количество ком
 var userPicture = document.querySelector('.pictures');
 var fragment = document.createDocumentFragment();
 
+
 function createPhotoParameters() {
   userPhoto.querySelector('.picture__img').setAttribute('src', currentPhoto.url);
   userPhoto.querySelector('.picture__likes').textContent = currentPhoto.likes;
@@ -58,14 +59,13 @@ function createPhotoComments() {
   for (var k = 0; k < getRandomInt(0, comments.length); k++) { // случайный выбор кол-ва комментариев, макс = длине comments
     currentComment.push(comments[k]);
   }
-
   userPhoto.querySelector('.picture__comments').textContent = currentComment.length;
 }
 
-for (var t = 0; t < arrayPhotos.length; i++) {
+for (var t = 0; t < arrayPhotos.length; t++) {
 
   var userPhoto = document.querySelector('#picture').content.cloneNode(true);
-  var currentPhoto = arrayPhotos[i];
+  var currentPhoto = arrayPhotos[t];
 
   createPhotoComments();
   createPhotoParameters();
