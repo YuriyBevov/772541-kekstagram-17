@@ -5,17 +5,16 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var arrayPhotos = createPhotoArray();
-var arrayComments = createCommentArray();
-
 function createPhotoArray() {
   var PHOTOS_MAX = 25;
   var PHOTOS_MIN = 1;
+  var LIKES_MAX = 200;
+  var LIKES_MIN = 15;
   var localPhotos = [];
 
   for (var i = PHOTOS_MIN; i <= PHOTOS_MAX; i++) {
     var url = 'photos/' + i + '.jpg';
-    var likes = getRandomInt(15, 200);
+    var likes = getRandomInt(LIKES_MIN, LIKES_MAX);
 
     localPhotos.push({url: url, likes: likes});
   }
@@ -31,6 +30,7 @@ function createCommentArray() {
     'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
+
   var localComments = [];
 
   for (var i = 0; i < comments.length; i++) {
@@ -46,30 +46,31 @@ function createCommentArray() {
 
 // вставка элементов на страницу
 
+function getPhotoComments() {
+  var arrayComments = createCommentArray();
+  var currentComment = []; // массив с комментариями к текущей фотографии
+  var randomCount = getRandomInt(0, arrayComments.length);
+
+  for (var i = 0; i < randomCount; i++) { // случайный выбор кол-ва комментариев, макс = длине comments
+    currentComment.push(arrayComments[i]);
+  }
+  return currentComment.length;
+}
+
 function createPhotosNode() {
-  var userPicture = document.querySelector('.pictures');
-  var fragment = document.createDocumentFragment(); // создание фрагмента
-
-  function getPhotoParameters() {
-    userPhoto.querySelector('.picture__img').setAttribute('src', currentPhoto.url);
-    userPhoto.querySelector('.picture__likes').textContent = currentPhoto.likes;
-  }
-
-  function getPhotoComments() {
-    var currentComment = []; // массив с комментариями к текущей фотографии
-
-    for (var i = 0; i < getRandomInt(0, arrayComments.length); i++) { // случайный выбор кол-ва комментариев, макс = длине comments
-      currentComment.push(arrayComments[i]);
-    }
-    userPhoto.querySelector('.picture__comments').textContent = currentComment.length;
-  }
+  var arrayPhotos = createPhotoArray();
+  var fragment = document.createDocumentFragment();// создание фрагмента
 
   for (var i = 0; i < arrayPhotos.length; i++) {
     var userPhoto = document.querySelector('#picture').content.cloneNode(true);
     var currentPhoto = arrayPhotos[i];
 
-    getPhotoComments();
-    getPhotoParameters();
+    userPhoto.querySelector('.picture__img').setAttribute('src', currentPhoto.url);
+    userPhoto.querySelector('.picture__likes').textContent = currentPhoto.likes;
+    userPhoto.querySelector('.picture__comments').textContent = getPhotoComments();
+
+    var userPicture = document.querySelector('.pictures');
+
     fragment.appendChild(userPhoto);
   }
   userPicture.appendChild(fragment);
