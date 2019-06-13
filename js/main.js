@@ -57,6 +57,12 @@ function getPhotoComments() {
   return currentComment.length;
 }
 
+function getParameters(element, photo) {
+  element.querySelector('.picture__img').setAttribute('src', photo.url);
+  element.querySelector('.picture__likes').textContent = photo.likes;
+  element.querySelector('.picture__comments').textContent = getPhotoComments();
+}
+
 function createPhotosNode() {
   var arrayPhotos = createPhotoArray();
   var fragment = document.createDocumentFragment();// создание фрагмента
@@ -65,9 +71,7 @@ function createPhotosNode() {
     var userPhoto = document.querySelector('#picture').content.cloneNode(true);
     var currentPhoto = arrayPhotos[i];
 
-    userPhoto.querySelector('.picture__img').setAttribute('src', currentPhoto.url);
-    userPhoto.querySelector('.picture__likes').textContent = currentPhoto.likes;
-    userPhoto.querySelector('.picture__comments').textContent = getPhotoComments();
+    getParameters(userPhoto, currentPhoto);
 
     fragment.appendChild(userPhoto);
   }
