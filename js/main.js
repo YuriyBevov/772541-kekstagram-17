@@ -46,7 +46,7 @@ function createCommentArray() {
 
 // вставка элементов на страницу
 
-function createElement() {
+function createPhotosNode() {
   var userPicture = document.querySelector('.pictures');
   var fragment = document.createDocumentFragment(); // создание фрагмента
 
@@ -55,7 +55,7 @@ function createElement() {
     userPhoto.querySelector('.picture__likes').textContent = currentPhoto.likes;
   }
 
-  function getPhotoComments() { // не корректно работает ?!
+  function getPhotoComments() {
     var currentComment = []; // массив с комментариями к текущей фотографии
 
     for (var i = 0; i < getRandomInt(0, arrayComments.length); i++) { // случайный выбор кол-ва комментариев, макс = длине comments
@@ -73,7 +73,6 @@ function createElement() {
     fragment.appendChild(userPhoto);
   }
   userPicture.appendChild(fragment);
-  // return ??
 }
 
-createElement();
+createPhotosNode();
