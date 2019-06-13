@@ -57,7 +57,7 @@ function getPhotoComments() {
   return currentComment.length;
 }
 
-function getParameters(element, photo) {
+function fillPhotoHtml(element, photo) {
   element.querySelector('.picture__img').setAttribute('src', photo.url);
   element.querySelector('.picture__likes').textContent = photo.likes;
   element.querySelector('.picture__comments').textContent = getPhotoComments();
@@ -71,7 +71,7 @@ function createPhotosNode() {
     var userPhoto = document.querySelector('#picture').content.cloneNode(true);
     var currentPhoto = arrayPhotos[i];
 
-    getParameters(userPhoto, currentPhoto);
+    fillPhotoHtml(userPhoto, currentPhoto);
 
     fragment.appendChild(userPhoto);
   }
