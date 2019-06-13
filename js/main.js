@@ -69,10 +69,11 @@ function createPhotosNode() {
     userPhoto.querySelector('.picture__likes').textContent = currentPhoto.likes;
     userPhoto.querySelector('.picture__comments').textContent = getPhotoComments();
 
-    var userPicture = document.querySelector('.pictures');
-
     fragment.appendChild(userPhoto);
   }
+
+  var userPicture = document.querySelector('.pictures');
+
   userPicture.appendChild(fragment);
 }
 
