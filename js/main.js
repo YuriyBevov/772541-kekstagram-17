@@ -82,3 +82,88 @@ function createPhotosNode() {
 }
 
 createPhotosNode();
+
+// Загрузка изображения и показ формы редактирования
+
+function uploadFile() {
+
+  var file = document.querySelector('#upload-file');
+  var uploadOverlay = document.querySelector('.img-upload__overlay');
+  var closeOverlay = document.querySelector('#upload-cancel');
+
+  file.addEventListener('change', function(evt) {
+    evt.preventDefault();
+    uploadOverlay.classList.remove('hidden');
+
+    document.addEventListener('keydown', function(evt){
+      if (evt.keyCode == 27) {
+        uploadOverlay.classList.add('hidden');
+      }
+    });
+  });
+
+  closeOverlay.addEventListener('click', function() {
+    uploadOverlay.classList.add('hidden');
+  });
+}
+
+uploadFile();
+
+// Применение эффекта для изображения и Редактирование размера изображения
+
+function changeEffects() {
+
+  var sliderPin = document.querySelector('.effect-level__pin');
+  var sliderLine = document.querySelector('.effect-level__depth')
+  var imgPreview = document.querySelector('.img-upload__preview');
+  var STEP = 20;
+
+
+  var effectsList = ['effects__preview--none',
+    'effects__preview--chrome',
+    'effects__preview--sepia',
+    'effects__preview--marvin',
+    'effects__preview--phobos',
+    'effects__preview--heat'
+  ];
+
+  var effectsButton = document.querySelectorAll('.effects__radio');
+
+  for (let i = 0; i < effectsButton.length; i++) {
+    effectsButton[i].addEventListener('click', function() {
+    imgPreview.classList.add(effectsList[i]);
+    sliderPin.style.left = [i] * STEP + '%';
+    sliderLine.style.width = [i] * STEP + '%';
+    console.log(i);
+  });
+ }
+}
+
+changeEffects();
+
+var effectLevel = document.querySelector('.effect-level__value')
+var sliderControl = document.querySelector('.effect-level');
+/*
+if (effectLevel.value == 0) {
+  sliderLine.classList.add('hidden');
+}
+
+if (effectLevel.value == 20) {
+  imgPreview.classList.add(effectsList[0]);
+}
+
+if (effectLevel.value == 40) {
+  imgPreview.classList.add(effectsList[1]);
+}
+
+if (effectLevel.value == 60) {
+  imgPreview.classList.add(effectsList[2]);
+}
+
+if (effectLevel.value == 80) {
+  imgPreview.classList.add(effectsList[3]);
+}
+
+if (effectLevel.value == 100) {
+  imgPreview.classList.add(effectsList[4]);
+}*/
