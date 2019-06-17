@@ -139,17 +139,17 @@ function changeEffects() {
 
       return function () {
 
-        /*var sliderControls = document.querySelector('.effect-level'); // Почему срабатывает не сразу при добавлении класса ?!
-
-        if (imgPreview.classList.contains('effects__preview--none')) {
-          sliderControls.classList.add('hidden');
-        } else (
-          sliderControls.classList.remove('hidden')
-        )*/
-
         imgPreview.classList.remove(activeFilter);
         imgPreview.classList.add(effectsList[j]);
         activeFilter = effectsList[j];
+
+        var sliderControls = document.querySelector('.effect-level');
+
+        if (activeFilter == 'effects__preview--none') {
+          sliderControls.classList.add('hidden');
+        } else {
+          sliderControls.classList.remove('hidden')
+        }
       };
     };
     effectsButton[i].addEventListener('change', onChangeListener());
