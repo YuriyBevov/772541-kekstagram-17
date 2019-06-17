@@ -130,7 +130,7 @@ function changeEffects() {
   var effectsButton = document.querySelectorAll('.effects__radio');
   var activeFilter = '.effects__preview--none';
   var imgPreview = document.querySelector('.img-upload__preview');
-  var sliderControls = document.querySelector('.effect-level').classList.add('hidden');
+  var hideControl = document.querySelector('.effect-level').classList.add('hidden');
 
   for (var i = 0; i < effectsButton.length; i++) {
 
@@ -146,10 +146,10 @@ function changeEffects() {
 
         var sliderControls = document.querySelector('.effect-level');
 
-        if (activeFilter == 'effects__preview--none') {
+        if (activeFilter === 'effects__preview--none') {
           sliderControls.classList.add('hidden');
         } else {
-          sliderControls.classList.remove('hidden')
+          sliderControls.classList.remove('hidden');
         }
       };
     };
@@ -163,7 +163,7 @@ changeEffects();
 
 function intensity() {
 
-  var MAX_VALUE = 100;
+  var MAX_VALUE = 40;
   var PERCENT = '%';
   var sliderPin = document.querySelector('.effect-level__pin'); // пин слайдера
   var sliderPinPosition = sliderPin.style.left = MAX_VALUE + PERCENT; // позиция пина
@@ -171,14 +171,14 @@ function intensity() {
 
   var onSliderPinHandler = document.querySelector('.effect-level__pin').addEventListener('mouseup', function () {
 
-    function effectsValue() { // значение эффекта
+    function intensityValue() { // значение эффекта
       var sliderPinValue = sliderPinPosition;
 
       var str = sliderPinValue;
       var effectsValue = str.slice(0, -1);
-      //return effectsValue;
+      // return effectsValue;
     }
-    //console.log(effectsValue());
+    // console.log(effectsValue());
   });
 }
 
