@@ -89,21 +89,27 @@ function uploadFile() {
 
   var file = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
-  var closeOverlay = document.querySelector('#upload-cancel');
+  var closeButton = document.querySelector('#upload-cancel');
+  var ESC = 27;
 
-  file.addEventListener('change', function(evt) {
+
+  function closeOverlay() {
+    uploadOverlay.classList.add('hidden');
+  }
+
+  file.addEventListener('change', function (evt) {
     evt.preventDefault();
     uploadOverlay.classList.remove('hidden');
 
-    document.addEventListener('keydown', function(evt){
-      if (evt.keyCode == 27) {
-        uploadOverlay.classList.add('hidden');
+    document.addEventListener('keydown', function () {
+      if (evt.keyCode === ESC) {
+        closeOverlay();
       }
     });
-  });
 
-  closeOverlay.addEventListener('click', function() {
-    uploadOverlay.classList.add('hidden');
+    closeButton.addEventListener('click', function () {
+      closeOverlay();
+    });
   });
 }
 
@@ -112,12 +118,6 @@ uploadFile();
 // Применение эффекта для изображения и Редактирование размера изображения
 
 function changeEffects() {
-
-  var sliderPin = document.querySelector('.effect-level__pin');
-  var sliderLine = document.querySelector('.effect-level__depth')
-  var imgPreview = document.querySelector('.img-upload__preview');
-  var STEP = 20;
-
 
   var effectsList = ['effects__preview--none',
     'effects__preview--chrome',
@@ -128,42 +128,57 @@ function changeEffects() {
   ];
 
   var effectsButton = document.querySelectorAll('.effects__radio');
+  var activeFilter = '.effects__preview--none';
+  var imgPreview = document.querySelector('.img-upload__preview');
 
-  for (let i = 0; i < effectsButton.length; i++) {
-    effectsButton[i].addEventListener('click', function() {
-    imgPreview.classList.add(effectsList[i]);
-    sliderPin.style.left = [i] * STEP + '%';
-    sliderLine.style.width = [i] * STEP + '%';
-    console.log(i);
-  });
- }
+  for (var i = 0; i < effectsButton.length; i++) {
+
+    var onChangeListener = function () {
+
+      var j = i;
+
+      return function () {
+
+        /*var sliderControls = document.querySelector('.effect-level'); // Почему срабатывает не сразу при добавлении класса ?!
+
+        if (imgPreview.classList.contains('effects__preview--none')) {
+          sliderControls.classList.add('hidden');
+        } else (
+          sliderControls.classList.remove('hidden')
+        )*/
+
+        imgPreview.classList.remove(activeFilter);
+        imgPreview.classList.add(effectsList[j]);
+        activeFilter = effectsList[j];
+      };
+    };
+    effectsButton[i].addEventListener('change', onChangeListener());
+  }
 }
 
 changeEffects();
 
-var effectLevel = document.querySelector('.effect-level__value')
-var sliderControl = document.querySelector('.effect-level');
-/*
-if (effectLevel.value == 0) {
-  sliderLine.classList.add('hidden');
+// Насыщенность
+
+function intensity() {
+
+  var MAX_VALUE = 100;
+  var PERCENT = '%';
+  var sliderPin = document.querySelector('.effect-level__pin'); // пин слайдера
+  var sliderPinPosition = sliderPin.style.left = MAX_VALUE + PERCENT; // позиция пина
+  var sliderLine = document.querySelector('.effect-level__depth').style.width = sliderPinPosition; // желтая линия ползунка
+
+  var onSliderPinHandler = document.querySelector('.effect-level__pin').addEventListener('mouseup', function () {
+
+    function effectsValue() { // значение эффекта
+      var sliderPinValue = sliderPinPosition;
+
+      var str = sliderPinValue;
+      var effectsValue = str.slice(0, -1);
+      //return effectsValue;
+    }
+    //console.log(effectsValue());
+  });
 }
 
-if (effectLevel.value == 20) {
-  imgPreview.classList.add(effectsList[0]);
-}
-
-if (effectLevel.value == 40) {
-  imgPreview.classList.add(effectsList[1]);
-}
-
-if (effectLevel.value == 60) {
-  imgPreview.classList.add(effectsList[2]);
-}
-
-if (effectLevel.value == 80) {
-  imgPreview.classList.add(effectsList[3]);
-}
-
-if (effectLevel.value == 100) {
-  imgPreview.classList.add(effectsList[4]);
-}*/
+intensity();
