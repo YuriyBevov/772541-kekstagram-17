@@ -130,6 +130,7 @@ function changeEffects() {
   var effectsButton = document.querySelectorAll('.effects__radio');
   var activeFilter = '.effects__preview--none';
   var imgPreview = document.querySelector('.img-upload__preview');
+  var sliderControls = document.querySelector('.effect-level').classList.add('hidden');
 
   for (var i = 0; i < effectsButton.length; i++) {
 
