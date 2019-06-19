@@ -46,7 +46,7 @@ function createCommentArray() {
 
 // вставка элементов на страницу
 
-(function() {
+(function () {
 
   function getPhotoComments() {
     var arrayComments = createCommentArray();
@@ -101,7 +101,7 @@ function createCommentArray() {
     uploadOverlay.classList.add('hidden');
   }
 
-    uploadFile.addEventListener('change', function (evt) {
+  uploadFile.addEventListener('change', function (evt) {
     evt.preventDefault();
     uploadOverlay.classList.remove('hidden');
 
@@ -169,7 +169,7 @@ function createCommentArray() {
 
   var sliderLineDepth = document.querySelector('.effect-level__depth');
 
-  sliderLine.addEventListener('click', function(evt){
+  sliderLine.addEventListener('click', function (evt) {
     evt.preventDefault();
 
     var sliderLineCoords = sliderLine.getBoundingClientRect();
@@ -178,34 +178,34 @@ function createCommentArray() {
 
     var clickCoords = {
       x: evt.clientX
-    }
+    };
 
     var clickValue = clickCoords.x - sliderLineCoordsLeft;
 
     var SLIDER_LINE_WIDTH = 450;
 
-    sliderPin.style.left = Math.floor(clickValue/(SLIDER_LINE_WIDTH/100)) + '%';
+    sliderPin.style.left = Math.floor(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
 
-    sliderLineDepth.style.width = Math.floor(clickValue/(SLIDER_LINE_WIDTH/100)) + '%';
+    sliderLineDepth.style.width = Math.floor(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
 
     // saturation
 
     (function saturation() {
 
-      var chromValue = Math.floor(clickValue/(SLIDER_LINE_WIDTH/100))/100;
-      var sepiaValue = Math.floor(clickValue/(SLIDER_LINE_WIDTH/100))/100;
-      var brightnessValue = Math.floor(clickValue*2/(SLIDER_LINE_WIDTH/100))/100 + 1;
+      var chromValue = Math.floor(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
+      var sepiaValue = Math.floor(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
+      var brightnessValue = Math.floor(clickValue * 2 / (SLIDER_LINE_WIDTH / 100)) / 100 + 1;
       var marvinValue = sliderPin.style.left;
-      var phobosValue = Math.floor(clickValue*3/(SLIDER_LINE_WIDTH/100))/100 + 'px';
+      var phobosValue = Math.floor(clickValue * 3 / (SLIDER_LINE_WIDTH / 100)) / 100 + 'px';
 
-      /*var effectsArray = {
+      /* var effectsArray = {
         none: '',
         chrome: 'grayscale(' + chromValue + ')',
         sepia: 'sepia(' + sepiaValue + ')',
         marvin: 'invert(' + marvinValue + ')',
         phobos: 'blur(' + phobosValue + ')',
         heat: 'brightness(' + brightnessValue + ')'
-      }*/
+      } */
 
       document.querySelector('.effects__preview--chrome').style.filter = 'grayscale(' + chromValue + ')';
       document.querySelector('.effects__preview--sepia').style.filter = 'sepia(' + sepiaValue + ')';
@@ -216,66 +216,3 @@ function createCommentArray() {
     }());
   });
 }());
-
-
-/*(function sliderPinMoving() {
-
-  var sliderPin = document.querySelector('.effect-level__pin'); // пин слайдера
-
-  sliderPin.addEventListener('mousedown', function(evt) {
-    evt.preventDefault();
-
-    var coordsX = {
-      x: evt.clientX
-    };
-
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-
-      var shift = {
-        x: coordsX.x - moveEvt.clientX
-      };
-
-      coordsX = {
-        x: moveEvt.clientX
-      };
-
-      sliderPin.style.left = (sliderPin.offsetLeft - shift.x) + 'px';
-
-      (function intensity() {
-
-      var sliderLineDepth = document.querySelector('.effect-level__depth');
-
-      sliderLineDepth.style.width = Math.floor((sliderPin.offsetLeft - shift.x)/4.5) + '%';
-
-
-      var intensityValue = Math.floor((sliderPin.offsetLeft - shift.x)/4.5)/100;
-
-
-      var effectChrome = document.querySelector('.effects__preview--chrome');
-      var effectSepia = document.querySelector('.effects__preview--sepia');
-
-      effectChrome.style.filter = 'grayscale(' + intensityValue + ')';
-      effectSepia.style.filter = 'sepia(' + intensityValue + ')';
-
-      console.log(effectChrome.style.filter);
-      console.log(intensityValue);
-      console.log(sliderLineDepth.style.width);
-    }());
-      // ограничения min/max
-
-    };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-
-  })
-}());
-*/
