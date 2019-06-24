@@ -105,7 +105,7 @@ function createCommentArray() {
     evt.preventDefault();
     uploadOverlay.classList.remove('hidden');
 
-    document.addEventListener('keydown', function () {
+    document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ESC) {
         closeOverlay();
       }
@@ -114,7 +114,9 @@ function createCommentArray() {
     closeButton.addEventListener('click', function () {
       closeOverlay();
     });
+
   });
+
 }());
 
 // Применение эффекта для изображения и Редактирование размера изображения
@@ -141,11 +143,16 @@ function createCommentArray() {
       var j = i;
 
       return function () {
-        // imgPreview.classList.remove('img-upload__preview');
+
+        var MAX_VALUE = 100 + '%';
 
         imgPreview.classList.remove(activeFilter);
+        document.querySelector('.effect-level__pin').style.left = MAX_VALUE;
+        document.querySelector('.effect-level__depth').style.width = MAX_VALUE;
+        imgPreview.style.filter = '';
         imgPreview.classList.add(effectsList[j]);
         activeFilter = effectsList[j];
+
         var sliderControls = document.querySelector('.effect-level');
 
         if (activeFilter === 'effects__preview--none') {
@@ -164,55 +171,72 @@ function createCommentArray() {
 (function () {
 
   var sliderPin = document.querySelector('.effect-level__pin');
-
   var sliderLine = document.querySelector('.effect-level__line');
-
   var sliderLineDepth = document.querySelector('.effect-level__depth');
 
   sliderLine.addEventListener('click', function (evt) {
     evt.preventDefault();
 
     var sliderLineCoords = sliderLine.getBoundingClientRect();
-
     var sliderLineCoordsLeft = sliderLineCoords.left;
-
     var clickCoords = {
       x: evt.clientX
     };
-
     var clickValue = clickCoords.x - sliderLineCoordsLeft;
-
     var SLIDER_LINE_WIDTH = 450;
 
-    sliderPin.style.left = Math.floor(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
-
-    sliderLineDepth.style.width = Math.floor(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
+    sliderPin.style.left = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
+    sliderLineDepth.style.width = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
 
     // saturation
 
-    (function saturation() {
+    (function () {
 
-      var chromValue = Math.floor(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
-      var sepiaValue = Math.floor(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
-      var brightnessValue = Math.floor(clickValue * 2 / (SLIDER_LINE_WIDTH / 100)) / 100 + 1;
+      var PHOBOS_AUX_VALUE = 3;
+      var BRIGHTNESS_FIRST_AUX_VALUE = 2;
+      var BRIGHTNESS_SECOND_AUX_VALUE = 1;
+
+      var chromValue = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
+      var sepiaValue = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
+      var brightnessValue = Math.round(clickValue * BRIGHTNESS_FIRST_AUX_VALUE / (SLIDER_LINE_WIDTH / 100)) / 100 + BRIGHTNESS_SECOND_AUX_VALUE;
       var marvinValue = sliderPin.style.left;
-      var phobosValue = Math.floor(clickValue * 3 / (SLIDER_LINE_WIDTH / 100)) / 100 + 'px';
+      var phobosValue = Math.round(clickValue * PHOBOS_AUX_VALUE / (SLIDER_LINE_WIDTH / 100)) / 100 + 'px';
 
-      /* var effectsArray = {
-        none: '',
-        chrome: 'grayscale(' + chromValue + ')',
-        sepia: 'sepia(' + sepiaValue + ')',
-        marvin: 'invert(' + marvinValue + ')',
-        phobos: 'blur(' + phobosValue + ')',
-        heat: 'brightness(' + brightnessValue + ')'
-      } */
+      var styleEffects = [
+        '',
+        'grayscale(' + chromValue + ')',
+        'sepia(' + sepiaValue + ')',
+        'invert(' + marvinValue + ')',
+        'blur(' + phobosValue + ')',
+        'brightness(' + brightnessValue + ')'
+      ]
 
-      document.querySelector('.effects__preview--chrome').style.filter = 'grayscale(' + chromValue + ')';
-      document.querySelector('.effects__preview--sepia').style.filter = 'sepia(' + sepiaValue + ')';
-      document.querySelector('.effects__preview--marvin').style.filter = 'invert(' + marvinValue + ')';
-      document.querySelector('.effects__preview--phobos').style.filter = 'blur(' + phobosValue + ')';
-      document.querySelector('.effects__preview--heat').style.filter = 'brightness(' + brightnessValue + ')';
+      var effectsPreview = document.querySelector('.img-upload__preview');
 
+      var effectsIcon = document.querySelectorAll('.effects__preview');
+
+      for (var i = 0; i < effectsIcon.length; i++) {
+        var onClickHandler = function() {
+          var j = i;
+
+          return function() {
+            effectsPreview.style.filter = styleEffects[j];
+          };
+        };
+        effectsIcon[i].addEventListener('change', onClickHandler());
+      };
     }());
+  });
+}());
+
+(function () { // валидация поля с комментарием
+  var commentInput = document.querySelector('.text__description');
+
+  commentInput.setAttribute('tabindex', '0');
+  commentInput.setAttribute('maxlength', '140');
+
+  commentInput.addEventListener('focus', function(evt) {
+    evt.preventDefault();
+
   });
 }());
