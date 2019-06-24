@@ -34,7 +34,6 @@ function createCommentArray() {
   var localComments = [];
 
   for (var i = 0; i < comments.length; i++) {
-
     var avatar = 'url:(img/' + getRandomInt(1, comments.length) + '.svg)'; // случайная аватарка
     var name = names[getRandomInt(0, names.length - 1)]; // случайное имя из массива имен
     var comment = comments[getRandomInt(0, comments.length - 1)]; // случайный комментарий
@@ -77,7 +76,6 @@ function createCommentArray() {
 
       fragment.appendChild(userPhoto);
     }
-
     var userPicture = document.querySelector('.pictures');
 
     userPicture.appendChild(fragment);
@@ -90,12 +88,10 @@ function createCommentArray() {
 // Загрузка изображения и показ формы редактирования
 
 (function () {
-
   var uploadFile = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var closeButton = document.querySelector('#upload-cancel');
   var ESC = 27;
-
 
   function closeOverlay() {
     uploadOverlay.classList.add('hidden');
@@ -105,8 +101,8 @@ function createCommentArray() {
     evt.preventDefault();
     uploadOverlay.classList.remove('hidden');
 
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC) {
+    document.addEventListener('keydown', function (escEvt) {
+      if (escEvt.keyCode === ESC) {
         closeOverlay();
       }
     });
@@ -114,9 +110,27 @@ function createCommentArray() {
     closeButton.addEventListener('click', function () {
       closeOverlay();
     });
-
   });
 
+  var commentInput = document.querySelector('.text__description'); // поле с комментариями
+
+  commentInput.setAttribute('tabindex', '0');
+  commentInput.setAttribute('maxlength', '140');
+
+  var escPreventer = function (evt) {
+    if (evt.keyCode === ESC) {
+      evt.preventDefault();
+      evt.stopPropagation();
+    }
+  };
+
+  commentInput.addEventListener('focus', function (evt) {
+    evt.preventDefault();
+    commentInput.addEventListener('keydown', escPreventer);
+  });
+  commentInput.addEventListener('blur', function () {
+    commentInput.removeEventListener('keydown', escPreventer);
+  });
 }());
 
 // Применение эффекта для изображения и Редактирование размера изображения
@@ -132,18 +146,15 @@ function createCommentArray() {
   ];
 
   var effectsButton = document.querySelectorAll('.effects__radio');
-  var activeFilter = '.effects__preview--none';
+  var activeFilter = 'effects__preview--none';
   var imgPreview = document.querySelector('.img-upload__preview');
   document.querySelector('.effect-level').classList.add('hidden');
 
   for (var i = 0; i < effectsButton.length; i++) {
-
     var onChangeListener = function () {
-
       var j = i;
 
       return function () {
-
         var MAX_VALUE = 100 + '%';
 
         imgPreview.classList.remove(activeFilter);
@@ -164,11 +175,6 @@ function createCommentArray() {
     };
     effectsButton[i].addEventListener('change', onChangeListener());
   }
-}());
-
-// Насыщенность
-
-(function () {
 
   var sliderPin = document.querySelector('.effect-level__pin');
   var sliderLine = document.querySelector('.effect-level__line');
@@ -188,55 +194,41 @@ function createCommentArray() {
     sliderPin.style.left = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
     sliderLineDepth.style.width = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
 
-    // saturation
+    var PHOBOS_AUX_VALUE = 3;
+    var BRIGHTNESS_FIRST_AUX_VALUE = 2;
+    var BRIGHTNESS_SECOND_AUX_VALUE = 1;
 
-    (function () {
+    var styles = {
+      'effects__preview--chrome': function () {
+        var chromeValue = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
+        return 'grayscale(' + chromeValue + ')';
+      },
+      'effects__preview--sepia': function () {
+        var sepiaValue = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
+        return 'sepia(' + sepiaValue + ')';
+      },
+      'effects__preview--marvin': function () {
+        var marvinValue = sliderPin.style.left;
+        return 'invert(' + marvinValue + ')';
+      },
+      'effects__preview--phobos': function () {
+        var phobosValue = Math.round(clickValue * PHOBOS_AUX_VALUE / (SLIDER_LINE_WIDTH / 100)) / 100 + 'px';
+        return 'blur(' + phobosValue + ')';
+      },
+      'effects__preview--heat': function () {
+        var brightnessValue = Math.round(clickValue * BRIGHTNESS_FIRST_AUX_VALUE / (SLIDER_LINE_WIDTH / 100)) / 100 + BRIGHTNESS_SECOND_AUX_VALUE;
+        return 'brightness(' + brightnessValue + ')';
+      }
+    };
 
-      var PHOBOS_AUX_VALUE = 3;
-      var BRIGHTNESS_FIRST_AUX_VALUE = 2;
-      var BRIGHTNESS_SECOND_AUX_VALUE = 1;
+    var effectsPreview = document.querySelector('.img-upload__preview');
 
-      var chromValue = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
-      var sepiaValue = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) / 100;
-      var brightnessValue = Math.round(clickValue * BRIGHTNESS_FIRST_AUX_VALUE / (SLIDER_LINE_WIDTH / 100)) / 100 + BRIGHTNESS_SECOND_AUX_VALUE;
-      var marvinValue = sliderPin.style.left;
-      var phobosValue = Math.round(clickValue * PHOBOS_AUX_VALUE / (SLIDER_LINE_WIDTH / 100)) / 100 + 'px';
-
-      var styleEffects = [
-        '',
-        'grayscale(' + chromValue + ')',
-        'sepia(' + sepiaValue + ')',
-        'invert(' + marvinValue + ')',
-        'blur(' + phobosValue + ')',
-        'brightness(' + brightnessValue + ')'
-      ]
-
-      var effectsPreview = document.querySelector('.img-upload__preview');
-
-      var effectsIcon = document.querySelectorAll('.effects__preview');
-
-      for (var i = 0; i < effectsIcon.length; i++) {
-        var onClickHandler = function() {
-          var j = i;
-
-          return function() {
-            effectsPreview.style.filter = styleEffects[j];
-          };
-        };
-        effectsIcon[i].addEventListener('change', onClickHandler());
-      };
-    }());
-  });
-}());
-
-(function () { // валидация поля с комментарием
-  var commentInput = document.querySelector('.text__description');
-
-  commentInput.setAttribute('tabindex', '0');
-  commentInput.setAttribute('maxlength', '140');
-
-  commentInput.addEventListener('focus', function(evt) {
-    evt.preventDefault();
-
+    if (activeFilter !== 'effects__preview--none') {
+      if (typeof styles[activeFilter] === 'string') {
+        effectsPreview.style.filter = styles[activeFilter];
+      } else {
+        effectsPreview.style.filter = styles[activeFilter]();
+      }
+    }
   });
 }());
