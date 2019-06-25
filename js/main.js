@@ -112,7 +112,7 @@ function createCommentArray() {
     });
   });
 
-  var commentInput = document.querySelector('.text__description'); // поле с комментариями
+  var commentInput = document.querySelector('.text__description');
 
   commentInput.setAttribute('tabindex', '0');
   commentInput.setAttribute('maxlength', '140');
