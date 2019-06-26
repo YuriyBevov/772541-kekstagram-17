@@ -188,11 +188,12 @@ function createCommentArray() {
     var clickCoords = {
       x: evt.clientX
     };
+
     var clickValue = clickCoords.x - sliderLineCoordsLeft;
-    var SLIDER_LINE_WIDTH = 450;
+    var SLIDER_LINE_WIDTH = sliderLine.offsetWidth;
 
     sliderPin.style.left = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
-    sliderLineDepth.style.width = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
+    sliderLineDepth.style.width = sliderPin.style.left;
 
     var PHOBOS_AUX_VALUE = 3;
     var BRIGHTNESS_FIRST_AUX_VALUE = 2;
@@ -231,4 +232,95 @@ function createCommentArray() {
       }
     }
   });
+
+  // Pin moving
+
+    sliderPin.addEventListener('mousedown', function(evt) {
+      evt.preventDefault();
+
+      var startCoords = {
+        x: evt.clientX
+      }
+
+      var onMouseMove = function (evtMove) {
+        evtMove.preventDefault();
+
+        var moveCoords = {
+          x: evtMove.clientX
+        }
+
+        var shift = {
+          x: startCoords.x - moveCoords.x
+        }
+
+        startCoords = {
+          x: evtMove.clientX
+        }
+
+        var sliderMinValue = sliderPin.offsetLeft - shift.x;
+        var sliderMaxValue = document.querySelector('.effect-level__line').offsetWidth;
+        var perCent = (sliderMaxValue / 100);
+
+        sliderPin.style.left = ((sliderPin.offsetLeft - shift.x) / (sliderMaxValue / 100)) + '%';
+
+        document.querySelector('.effect-level__depth').style.width = sliderPin.style.left;
+
+        if (sliderMinValue < 0) {
+          sliderPin.style.left = 0;
+        } if(sliderMinValue > sliderMaxValue) {
+          sliderPin.style.left = 100 + '%';
+        }
+
+        var moveValue = sliderPin.offsetLeft - shift.x;
+
+        // Дублирующийся код
+
+        var PHOBOS_AUX_VALUE = 3;
+        var BRIGHTNESS_FIRST_AUX_VALUE = 2;
+        var BRIGHTNESS_SECOND_AUX_VALUE = 1;
+
+        var styles = {
+          'effects__preview--chrome': function () {
+            var chromeValue = Math.round(moveValue / (sliderMaxValue / 100)) / 100;
+            return 'grayscale(' + chromeValue + ')';
+          },
+          'effects__preview--sepia': function () {
+            var sepiaValue = Math.round(moveValue / (sliderMaxValue / 100)) / 100;
+            return 'sepia(' + sepiaValue + ')';
+          },
+          'effects__preview--marvin': function () {
+            var marvinValue = sliderPin.style.left;
+            return 'invert(' + marvinValue + ')';
+          },
+          'effects__preview--phobos': function () {
+            var phobosValue = Math.round(moveValue * PHOBOS_AUX_VALUE / (sliderMaxValue / 100)) / 100 + 'px';
+            return 'blur(' + phobosValue + ')';
+          },
+          'effects__preview--heat': function () {
+            var brightnessValue = Math.round(moveValue * BRIGHTNESS_FIRST_AUX_VALUE / (sliderMaxValue / 100)) / 100 + BRIGHTNESS_SECOND_AUX_VALUE;
+            return 'brightness(' + brightnessValue + ')';
+          }
+        };
+
+        var effectsPreview = document.querySelector('.img-upload__preview');
+
+        if (activeFilter !== 'effects__preview--none') {
+          if (typeof styles[activeFilter] === 'string') {
+            effectsPreview.style.filter = styles[activeFilter];
+          } else {
+            effectsPreview.style.filter = styles[activeFilter]();
+          }
+        }
+      }
+
+        var onMouseUp = function (evtUp) {
+        evtUp.preventDefault();
+
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
 }());
