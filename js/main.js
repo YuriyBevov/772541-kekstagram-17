@@ -166,6 +166,152 @@ function createCommentArray() {
 
         var sliderControls = document.querySelector('.effect-level');
 
+        if (activeFilter === '.effects__preview--none') {
+          sliderControls.classList.add('hidden');
+        } else {
+          sliderControls.classList.remove('hidden');
+        }
+      };
+    };
+    effectsButton[i].addEventListener('change', onChangeListener());
+  }
+
+  var sliderPin = document.querySelector('.effect-level__pin');
+  var sliderLine = document.querySelector('.effect-level__line');
+  var sliderLineDepth = document.querySelector('.effect-level__depth');
+  sliderLineDepth.style.width = sliderPin.style.left;
+
+  var onMouseClick = function (evt) {
+    evt.preventDefault();
+
+    var sliderLineCoordsLeft = sliderLine.getBoundingClientRect().left;
+    var clickCoords = evt.clientX;
+    var sliderWidth = sliderLine.offsetWidth;
+
+    var clickValue = clickCoords - sliderLineCoordsLeft;
+
+    sliderPin.style.left = Math.round(clickValue / (sliderWidth / 100)) + '%';
+
+    intensity(clickValue, sliderWidth);
+  };
+
+  var onMouseDown = function (evt) {
+    evt.preventDefault();
+
+    var startCoords = evt.clientX;
+
+    var onMouseMove = function (evtMove) {
+      evtMove.preventDefault();
+
+      var moveCoords = evtMove.clientX;
+
+      var shift = startCoords - moveCoords;
+
+      startCoords = evtMove.clientX;
+
+      var sliderMinValue = sliderPin.offsetLeft - shift;
+      var sliderMaxValue = document.querySelector('.effect-level__line').offsetWidth;
+
+      sliderPin.style.left = ((sliderPin.offsetLeft - shift) / (sliderMaxValue / 100)) + '%';
+
+      if (sliderMinValue < 0) {
+        sliderPin.style.left = 0;
+      } if(sliderMinValue > sliderMaxValue) {
+        sliderPin.style.left = 100 + '%';
+      }
+
+      var sliderWidth = sliderLine.offsetWidth;
+      var moveValue = sliderPin.offsetLeft - shift;
+
+      intensity(moveValue, sliderWidth);
+    }
+
+      var onMouseUp = function (evtUp) {
+      evtUp.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
+  function intensity(position, width) {
+
+    var PHOBOS_AUX_VALUE = 3;
+    var BRIGHTNESS_FIRST_AUX_VALUE = 2;
+    var BRIGHTNESS_SECOND_AUX_VALUE = 1;
+
+    var styles = {
+      'effects__preview--chrome': function () {
+        var chromeValue = Math.round(position / (width / 100)) / 100;
+        return 'grayscale(' + chromeValue + ')';
+      },
+      'effects__preview--sepia': function () {
+        var sepiaValue = Math.round(position / (width / 100)) / 100;
+        return 'sepia(' + sepiaValue + ')';
+      },
+      'effects__preview--marvin': function () {
+        var marvinValue = Math.round(position / (width / 100)) + '%';
+        return 'invert(' + marvinValue + ')';
+      },
+      'effects__preview--phobos': function () {
+        var phobosValue = Math.round(position * PHOBOS_AUX_VALUE / (width / 100)) / 100 + 'px';
+        return 'blur(' + phobosValue + ')';
+      },
+      'effects__preview--heat': function () {
+        var brightnessValue = Math.round(position * BRIGHTNESS_FIRST_AUX_VALUE / (width / 100)) / 100 + BRIGHTNESS_SECOND_AUX_VALUE;
+        return 'brightness(' + brightnessValue + ')';
+      }
+    };
+
+    var effectsPreview = document.querySelector('.img-upload__preview');
+
+    if (activeFilter !== 'effects__preview--none') {
+      if (typeof styles[activeFilter] === 'string') {
+        effectsPreview.style.filter = styles[activeFilter];
+      } else {
+        effectsPreview.style.filter = styles[activeFilter]();
+      }
+    }
+  }
+
+ sliderLine.addEventListener('click', onMouseClick);
+ sliderPin.addEventListener('mousedown', onMouseDown);
+}());
+
+/*(function () {
+
+  var effectsList = ['effects__preview--none',
+    'effects__preview--chrome',
+    'effects__preview--sepia',
+    'effects__preview--marvin',
+    'effects__preview--phobos',
+    'effects__preview--heat'
+  ];
+
+  var effectsButton = document.querySelectorAll('.effects__radio');
+  var activeFilter = 'effects__preview--none';
+  var imgPreview = document.querySelector('.img-upload__preview');
+  document.querySelector('.effect-level').classList.add('hidden');
+
+  for (var i = 0; i < effectsButton.length; i++) {
+    var onChangeListener = function () {
+      var j = i;
+
+      return function () {
+        var MAX_VALUE = 100 + '%';
+
+        imgPreview.classList.remove(activeFilter);
+        document.querySelector('.effect-level__pin').style.left = MAX_VALUE;
+        document.querySelector('.effect-level__depth').style.width = MAX_VALUE;
+        imgPreview.style.filter = '';
+        imgPreview.classList.add(effectsList[j]);
+        activeFilter = effectsList[j];
+
+        var sliderControls = document.querySelector('.effect-level');
+
         if (activeFilter === 'effects__preview--none') {
           sliderControls.classList.add('hidden');
         } else {
@@ -180,16 +326,16 @@ function createCommentArray() {
   var sliderLine = document.querySelector('.effect-level__line');
   var sliderLineDepth = document.querySelector('.effect-level__depth');
 
-  sliderLine.addEventListener('click', function (evt) {
+
+    sliderLine.addEventListener('click', function (evt) {
     evt.preventDefault();
 
     var sliderLineCoords = sliderLine.getBoundingClientRect();
     var sliderLineCoordsLeft = sliderLineCoords.left;
-    var clickCoords = {
-      x: evt.clientX
-    };
+    var clickCoords = evt.clientX;
 
-    var clickValue = clickCoords.x - sliderLineCoordsLeft;
+
+    var clickValue = clickCoords - sliderLineCoordsLeft;
     var SLIDER_LINE_WIDTH = sliderLine.offsetWidth;
 
     sliderPin.style.left = Math.round(clickValue / (SLIDER_LINE_WIDTH / 100)) + '%';
@@ -238,30 +384,22 @@ function createCommentArray() {
     sliderPin.addEventListener('mousedown', function(evt) {
       evt.preventDefault();
 
-      var startCoords = {
-        x: evt.clientX
-      }
+      var startCoords = evt.clientX;
 
       var onMouseMove = function (evtMove) {
         evtMove.preventDefault();
 
-        var moveCoords = {
-          x: evtMove.clientX
-        }
+        var moveCoords = evtMove.clientX;
 
-        var shift = {
-          x: startCoords.x - moveCoords.x
-        }
+        var shift = startCoords - moveCoords;
 
-        startCoords = {
-          x: evtMove.clientX
-        }
+        startCoords = evtMove.clientX;
 
-        var sliderMinValue = sliderPin.offsetLeft - shift.x;
+        var sliderMinValue = sliderPin.offsetLeft - shift;
         var sliderMaxValue = document.querySelector('.effect-level__line').offsetWidth;
         var perCent = (sliderMaxValue / 100);
 
-        sliderPin.style.left = ((sliderPin.offsetLeft - shift.x) / (sliderMaxValue / 100)) + '%';
+        sliderPin.style.left = ((sliderPin.offsetLeft - shift) / (sliderMaxValue / 100)) + '%';
 
         document.querySelector('.effect-level__depth').style.width = sliderPin.style.left;
 
@@ -271,9 +409,9 @@ function createCommentArray() {
           sliderPin.style.left = 100 + '%';
         }
 
-        var moveValue = sliderPin.offsetLeft - shift.x;
+        var moveValue = sliderPin.offsetLeft - shift;
 
-        // Дублирующийся код
+       // Дублирующийся код
 
         var PHOBOS_AUX_VALUE = 3;
         var BRIGHTNESS_FIRST_AUX_VALUE = 2;
@@ -324,3 +462,5 @@ function createCommentArray() {
       document.addEventListener('mouseup', onMouseUp);
     });
 }());
+
+*/
