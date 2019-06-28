@@ -257,15 +257,15 @@ function createCommentArray() {
         return 'sepia(' + sepiaValue + ')';
       },
       'effects__preview--marvin': function () {
-        var marvinValue = Math.ceil(position / (width / 100)) + '%';
+        var marvinValue = (position / (width / 100)) + '%';
         return 'invert(' + marvinValue + ')';
       },
       'effects__preview--phobos': function () {
-        var phobosValue = Math.ceil(position * PHOBOS_AUX_VALUE) / width + 'px';
+        var phobosValue = (position * PHOBOS_AUX_VALUE) / width + 'px';
         return 'blur(' + phobosValue + ')';
       },
       'effects__preview--heat': function () {
-        var brightnessValue = Math.ceil(position * BRIGHTNESS_FIRST_AUX_VALUE) / width + BRIGHTNESS_SECOND_AUX_VALUE;
+        var brightnessValue = (position * BRIGHTNESS_FIRST_AUX_VALUE) / width + BRIGHTNESS_SECOND_AUX_VALUE;
         return 'brightness(' + brightnessValue + ')';
       }
     };
