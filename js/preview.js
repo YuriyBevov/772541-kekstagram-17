@@ -7,6 +7,8 @@
   var activeFilter = 'effects__preview--none';
   var imgPreview = document.querySelector('.img-upload__preview');
   document.querySelector('.effect-level').classList.add('hidden');
+  var effectsList = window.data.effectsList;
+  var MAX_VALUE = 100 + '%';
 
   for (var i = 0; i < effectsButton.length; i++) {
 
@@ -15,11 +17,11 @@
       return function () {
 
         imgPreview.classList.remove(activeFilter);
-        document.querySelector('.effect-level__pin').style.left = window.util.MAX_VALUE;
-        document.querySelector('.effect-level__depth').style.width = window.util.MAX_VALUE;
+        document.querySelector('.effect-level__pin').style.left = MAX_VALUE;
+        document.querySelector('.effect-level__depth').style.width = MAX_VALUE;
         imgPreview.style.filter = '';
-        imgPreview.classList.add(window.data.effectsList[j]);
-        activeFilter = window.data.effectsList[j];
+        imgPreview.classList.add(effectsList[j]);
+        activeFilter = effectsList[j];
 
         var sliderControls = document.querySelector('.effect-level');
 
@@ -37,7 +39,6 @@
   var sliderLine = document.querySelector('.effect-level__line');
   var sliderLineDepth = document.querySelector('.effect-level__depth');
 
-
   var onMouseClick = function (evt) {
     evt.preventDefault();
 
@@ -46,7 +47,7 @@
     var sliderWidth = sliderLine.offsetWidth;
     var clickValue = clickCoords - sliderLineCoordsLeft;
 
-    pinMove(false, clickValue);
+    pinMoveByClick(clickValue);
     intensity(clickValue, sliderWidth);
   };
 
@@ -64,7 +65,7 @@
 
       startCoords = evtMove.clientX;
 
-      pinMove(shift);
+      pinMoveByShift(shift);
       intensity(moveValue, sliderWidth);
     };
 
@@ -79,20 +80,28 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  function pinMove(shift, clickValue) {
+  function pinMoveByShift(shift) {
 
     var sliderMinValue = sliderPin.offsetLeft - shift;
     var sliderMaxValue = document.querySelector('.effect-level__line').offsetWidth;
 
+    sliderDepth();
     sliderPin.style.left = ((sliderPin.offsetLeft - shift) / (sliderMaxValue / 100)) + '%';
-    sliderPin.style.left = Math.round(clickValue / (sliderLine.offsetWidth / 100)) + '%';
-    sliderLineDepth.style.width = sliderPin.style.left;
 
     if (sliderMinValue < 0) {
       sliderPin.style.left = 0;
     } if (sliderMinValue > sliderMaxValue) {
       sliderPin.style.left = 100 + '%';
     }
+  }
+
+  function pinMoveByClick(clickValue) {
+    sliderPin.style.left = Math.round(clickValue / (sliderLine.offsetWidth / 100)) + '%';
+    sliderDepth();
+  }
+
+  function sliderDepth() {
+    sliderLineDepth.style.width = sliderPin.style.left;
   }
 
   function intensity(position, width) {

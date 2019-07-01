@@ -5,13 +5,14 @@
   var uploadFile = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var closeButton = document.querySelector('#upload-cancel');
+  var ESC_KEYCODE = window.util.ESC_KEYCODE;
 
   uploadFile.addEventListener('change', function (evt) {
     evt.preventDefault();
     window.util.showElem(uploadOverlay);
 
     document.addEventListener('keydown', function (escEvt) {
-      if (escEvt.keyCode === window.util.ESC_KEYCODE) {
+      if (escEvt.keyCode === ESC_KEYCODE) {
         window.util.hideElem(uploadOverlay);
       }
     });
@@ -27,7 +28,7 @@
   commentInput.setAttribute('maxlength', '140');
 
   var escPreventer = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
+    if (evt.keyCode === ESC_KEYCODE) {
       evt.preventDefault();
       evt.stopPropagation();
     }
