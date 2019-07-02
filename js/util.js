@@ -20,6 +20,6 @@
     ESC_KEYCODE: ESC_KEYCODE,
     getRandom: getRandom,
     hideElem: hideElem,
-    showElem: showElem
+    showElem: showElem,
   };
 })();
