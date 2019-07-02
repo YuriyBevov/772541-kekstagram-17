@@ -9,6 +9,9 @@
   document.querySelector('.effect-level').classList.add('hidden');
   var effectsList = window.data.effectsList;
   var MAX_VALUE = 100 + '%';
+  var sliderPin = document.querySelector('.effect-level__pin');
+  var sliderLine = document.querySelector('.effect-level__line');
+  var sliderLineDepth = document.querySelector('.effect-level__depth');
 
   for (var i = 0; i < effectsButton.length; i++) {
 
@@ -35,10 +38,6 @@
     effectsButton[i].addEventListener('click', onChangeListener());
   }
 
-  var sliderPin = document.querySelector('.effect-level__pin');
-  var sliderLine = document.querySelector('.effect-level__line');
-  var sliderLineDepth = document.querySelector('.effect-level__depth');
-
   var onMouseClick = function (evt) {
     evt.preventDefault();
 
@@ -48,7 +47,7 @@
     var clickValue = clickCoords - sliderLineCoordsLeft;
 
     pinMoveByClick(clickValue);
-    getIntensity(clickValue, sliderWidth);
+    setIntensity(clickValue, sliderWidth);
   };
 
   var onMouseDown = function (evt) {
@@ -66,7 +65,7 @@
       startCoords = evtMove.clientX;
 
       pinMoveByShift(shift);
-      getIntensity(moveValue, sliderWidth);
+      setIntensity(moveValue, sliderWidth);
     };
 
     var onMouseUp = function (evtUp) {
@@ -86,28 +85,29 @@
     var sliderMaxValue = document.querySelector('.effect-level__line').offsetWidth;
 
     var positionByShift = ((sliderPin.offsetLeft - shift) / (sliderMaxValue / 100)) + '%';
-    sliderPin.style.left = positionByShift;
 
     if (sliderMinValue < 0) {
-      sliderPin.style.left = 0;
+      positionByShift = 0;
     } if (sliderMinValue > sliderMaxValue) {
-      sliderPin.style.left = MAX_VALUE;
+      positionByShift = MAX_VALUE;
     }
-    getSliderLineWidth(positionByShift);
+
+    sliderPin.style.left = positionByShift;
+    setSliderLineWidth(positionByShift);
   }
 
   function pinMoveByClick(clickValue) {
 
     var positionByClick = Math.round(clickValue / (sliderLine.offsetWidth / 100)) + '%';
     sliderPin.style.left = positionByClick;
-    getSliderLineWidth(positionByClick);
+    setSliderLineWidth(positionByClick);
   }
 
-  function getSliderLineWidth(value) {
+  function setSliderLineWidth(value) {
     sliderLineDepth.style.width = value;
   }
 
-  function getIntensity(position, width) {
+  function setIntensity(position, width) {
 
     var PHOBOS_AUX_VALUE = 3;
     var BRIGHTNESS_FIRST_AUX_VALUE = 2;
