@@ -38,7 +38,7 @@
     return localPhotos;
   };
 
-  var createCommentArray = function createCommentArray() {
+  var createCommentArray = function () {
 
     var localComments = [];
 
