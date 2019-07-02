@@ -6,19 +6,21 @@
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var closeButton = document.querySelector('#upload-cancel');
   var ESC_KEYCODE = window.util.ESC_KEYCODE;
+  var showElem =  window.util.showElem;
+  var hideElem = window.util.hideElem;
 
   uploadFile.addEventListener('change', function (evt) {
     evt.preventDefault();
-    window.util.showElem(uploadOverlay);
+    showElem(uploadOverlay);
 
     document.addEventListener('keydown', function (escEvt) {
       if (escEvt.keyCode === ESC_KEYCODE) {
-        window.util.hideElem(uploadOverlay);
+        hideElem(uploadOverlay);
       }
     });
 
     closeButton.addEventListener('click', function () {
-      window.util.hideElem(uploadOverlay);
+      hideElem(uploadOverlay);
     });
   });
 
