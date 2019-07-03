@@ -1,4 +1,7 @@
-// Модуль показа формы редактирования
+/*
+* @file Overlay display module
+* author Yuriy Bevov
+*/
 'use strict';
 
 (function () {
