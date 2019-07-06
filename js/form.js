@@ -1,16 +1,18 @@
-/*
-* @file Overlay display module
-* author Yuriy Bevov
-*/
+/**
+ * @file Модуль показа формы
+ * @author Yuriy Bevov
+ */
+
 'use strict';
 
 (function () {
+  var showElem = window.util.showElem;
+  var hideElem = window.util.hideElem;
+  var ESC_KEYCODE = window.util.ESC_KEYCODE;
+
   var uploadFile = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var closeButton = document.querySelector('#upload-cancel');
-  var ESC_KEYCODE = window.util.ESC_KEYCODE;
-  var showElem =  window.util.showElem;
-  var hideElem = window.util.hideElem;
 
   uploadFile.addEventListener('change', function (evt) {
     evt.preventDefault();

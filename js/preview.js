@@ -1,13 +1,23 @@
-// Модуль применений эффекта для изображения
+/**
+ * @file Модуль применений эффекта для изображения
+ * @author Yuriy Bevov
+ */
+
 'use strict';
 
 (function () {
+  var effectsList = ['effects__preview--none',
+    'effects__preview--chrome',
+    'effects__preview--sepia',
+    'effects__preview--marvin',
+    'effects__preview--phobos',
+    'effects__preview--heat'
+  ];
 
   var effectsButton = document.querySelectorAll('.effects__radio');
   var activeFilter = 'effects__preview--none';
   var imgPreview = document.querySelector('.img-upload__preview');
   document.querySelector('.effect-level').classList.add('hidden');
-  var effectsList = window.data.effectsList;
   var MAX_VALUE = 100 + '%';
   var sliderPin = document.querySelector('.effect-level__pin');
   var sliderLine = document.querySelector('.effect-level__line');

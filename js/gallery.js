@@ -1,18 +1,19 @@
-// Модуль создания галереи фотографий
+/**
+ * @file Модуль создания галереи фотографий
+ * @author Yuriy Bevov
+ */
+
 'use strict';
 
 (function () {
-  var createPhotoArray = window.data.createPhotoArray;
-  var getPhotoComments = window.data.getPhotoComments;
 
   function fillPhotoHtml(element, photo) {
     element.querySelector('.picture__img').setAttribute('src', photo.url);
     element.querySelector('.picture__likes').textContent = photo.likes;
-    element.querySelector('.picture__comments').textContent = getPhotoComments();
+    element.querySelector('.picture__comments').textContent = photo.comments.length;
   }
 
-  function createPhotosNode() {
-    var arrayPhotos = createPhotoArray();
+  function createPhotosNode(arrayPhotos) {
     var fragment = document.createDocumentFragment();// создание фрагмента
 
     for (var i = 0; i < arrayPhotos.length; i++) {
@@ -28,5 +29,7 @@
     userPicture.appendChild(fragment);
   }
 
-  createPhotosNode();
+  window.gallery = {
+    createPhotosNode: createPhotosNode
+  }
 })();
