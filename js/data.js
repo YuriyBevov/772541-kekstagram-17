@@ -1,4 +1,9 @@
-// модуль данных
+/**
+ * @file модуль данных
+ * @author Yuriy Bevov
+ * @deprecated
+ */
+
 'use strict';
 
 (function () {
@@ -10,14 +15,6 @@
     'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
     'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-  ];
-
-  var effectsList = ['effects__preview--none',
-    'effects__preview--chrome',
-    'effects__preview--sepia',
-    'effects__preview--marvin',
-    'effects__preview--phobos',
-    'effects__preview--heat'
   ];
 
   var names = ['Артем', 'Юрий', 'Ирина', 'Карина', 'Руслан'];
@@ -64,7 +61,6 @@
   };
 
   window.data = {
-    effectsList: effectsList,
     names: names,
     comments: comments,
     createPhotoArray: createPhotoArray,
