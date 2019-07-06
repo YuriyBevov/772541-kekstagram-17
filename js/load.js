@@ -4,7 +4,7 @@
 
   var createPhotoNode = window.gallery.createPhotosNode;
 
-  var URL = 'https://js.dump.academy/kekstagram/dta';
+  var URL = 'https://js.dump.academy/kekstagram/data';
   var xhr = new XMLHttpRequest();
 
   xhr.responseType = 'json';
@@ -13,9 +13,9 @@
 
   xhr.addEventListener('load', function () {
     if (xhr.status === 200) {
-        createPhotoNode(xhr.response);
+      createPhotoNode(xhr.response);
     } else {
-      console.error('Ошибка ' + xhr.status + xhr.statusText + ' в ответе сервера');
+      // alert('Ошибка ' + xhr.status + xhr.statusText + ' в ответе сервера');
     }
   });
   xhr.send();
