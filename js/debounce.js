@@ -1,3 +1,8 @@
+/**
+ * @file Устранение эффекта дребезга
+ * @author Yuriy Bevov
+ */
+
 'use strict';
 
 (function () {

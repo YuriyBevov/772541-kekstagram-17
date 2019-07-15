@@ -3,7 +3,7 @@
 (function () {
 
   var createPhotosNode = window.gallery.createPhotosNode;
-  var getNewPhotoList = window.gallery.getNewPhotoList;
+  var changePhotoFilters = window.gallery.changePhotoFilters;
 
   var CODE = {
     SUCCESS: 200,
@@ -22,7 +22,7 @@
   xhr.addEventListener('load', function () {
     if (xhr.status === CODE.SUCCESS) {
       createPhotosNode(xhr.response);
-      getNewPhotoList(xhr.response);
+      changePhotoFilters(xhr.response);
     } else {
       // alert('Ошибка ' + xhr.status + xhr.statusText + ' в ответе сервера');
     }

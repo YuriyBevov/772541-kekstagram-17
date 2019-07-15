@@ -29,7 +29,7 @@
     userPicture.appendChild(fragment);
   }
 
-  function getNewPhotoList(serverArray) {
+  function changePhotoFilters(serverArray) {
     var getRandom = window.util.getRandom;
     var debounce = window.debounce;
 
@@ -120,6 +120,6 @@
 
   window.gallery = {
     createPhotosNode: createPhotosNode,
-    getNewPhotoList: getNewPhotoList
+    changePhotoFilters: changePhotoFilters
   };
 })();
