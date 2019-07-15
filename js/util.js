@@ -18,18 +18,6 @@
     elem.classList.remove('hidden');
   };
 
-  /* var deleteNodes = function (elems) {
-    Array.from(elems).forEach( function (it) {
-      it.parentNode.removeChild(it);
-    });
-  };
-
-  var classRemove = function (elem, className) {
-    for (var i = 0; i < elem.length; i++) {
-      elem[i].classList.remove(className);
-    }
-  }; */
-
   var ESC_KEYCODE = 27;
 
   window.util = {
@@ -37,7 +25,5 @@
     getRandom: getRandom,
     hideElem: hideElem,
     showElem: showElem
-    // deleteNodes: deleteNodes,
-    // classRemove: classRemove
   };
 })();
