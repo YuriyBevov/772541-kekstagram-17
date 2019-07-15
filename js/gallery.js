@@ -30,7 +30,7 @@
   }
 
 
-  var getNewPhotoList = function (serverArray) {
+  function getNewPhotoList(serverArray) {
     var getRandom = window.util.getRandom;
 
     var imgFilters = document.querySelector('.img-filters');
@@ -52,11 +52,49 @@
       btn.classList.remove('img-filters__button--active');
     };
 
+    var addActiveClassToCurrentButton = function (elem) {
+      elem.classList.add('img-filters__button--active');
+    };
+
+    filterPopular.addEventListener('click', function (evt) {
+      evt.preventDefault();
+
+      removeActiveClassOfButton();
+      addActiveClassToCurrentButton(filterPopular);
+      deletePreviousPictures();
+      createPhotosNode(serverArray);
+    });
+
+    filterNew.addEventListener('click', function (evt) {
+      evt.preventDefault();
+
+      removeActiveClassOfButton();
+      addActiveClassToCurrentButton(filterNew);
+      deletePreviousPictures();
+
+      var MAX_NUMBER = 24;
+      var currentXhr = serverArray.slice();
+      var numbersArray = [];
+      var newPhotosArray = [];
+
+      while (numbersArray.length < 10) {
+        var randomNumber = getRandom(0, MAX_NUMBER);
+
+        if (numbersArray.indexOf(randomNumber) === -1) {
+          numbersArray.push(randomNumber);
+        }
+      }
+      numbersArray.forEach(function (item) {
+        newPhotosArray.push(currentXhr[item]);
+      });
+      createPhotosNode(newPhotosArray);
+    });
+
     filterDiscussed.addEventListener('click', function (evt) {
       evt.preventDefault();
 
       removeActiveClassOfButton();
-      filterDiscussed.classList.add('img-filters__button--active');
+      addActiveClassToCurrentButton(filterDiscussed);
 
       var discussedPhotos = serverArray.slice();
 
@@ -67,41 +105,7 @@
       deletePreviousPictures();
       createPhotosNode(discussedPhotos);
     });
-
-    filterPopular.addEventListener('click', function (evt) {
-      evt.preventDefault();
-
-      removeActiveClassOfButton();
-      filterPopular.classList.add('img-filters__button--active');
-      deletePreviousPictures();
-      createPhotosNode(serverArray);
-    });
-
-    filterNew.addEventListener('click', function (evt) {
-      evt.preventDefault();
-
-      removeActiveClassOfButton();
-      filterNew.classList.add('img-filters__button--active');
-      deletePreviousPictures();
-
-      var MAX_NUMBER = 24;
-      var currentXhr = serverArray.slice();
-      var numbersArray = []; // записываю в этот массив рандомные числа
-      var newPhotosArray = []; // массив случайных фото
-
-      while (numbersArray.length < 10) {
-        var randomNumber = getRandom(0, MAX_NUMBER); // создадим случайное число
-
-        if (numbersArray.indexOf(randomNumber) === -1) { // проверяю есть оно  у нас или нет
-          numbersArray.push(randomNumber);
-        }
-      }
-      numbersArray.forEach(function (item) {
-        newPhotosArray.push(currentXhr[item]);
-      });
-      createPhotosNode(newPhotosArray);
-    });
-  };
+  }
 
   window.gallery = {
     createPhotosNode: createPhotosNode,
