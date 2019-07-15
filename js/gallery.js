@@ -29,12 +29,13 @@
     userPicture.appendChild(fragment);
   }
 
-
   function getNewPhotoList(serverArray) {
     var getRandom = window.util.getRandom;
 
-    var imgFilters = document.querySelector('.img-filters');
-    imgFilters.classList.remove('img-filters--inactive');
+    var showButtons = function showButtons() {
+      var imgFilters = document.querySelector('.img-filters');
+      imgFilters.classList.remove('img-filters--inactive');
+    }();
 
     var filterDiscussed = document.getElementById('filter-discussed');
     var filterNew = document.getElementById('filter-new');
@@ -65,7 +66,7 @@
       createPhotosNode(serverArray);
     });
 
-    filterNew.addEventListener('click', function (evt) {
+      filterNew.addEventListener('click', function (evt) {
       evt.preventDefault();
 
       removeActiveClassOfButton();
@@ -73,7 +74,6 @@
       deletePreviousPictures();
 
       var MAX_NUMBER = 24;
-      var currentXhr = serverArray.slice();
       var numbersArray = [];
       var newPhotosArray = [];
 
@@ -84,8 +84,9 @@
           numbersArray.push(randomNumber);
         }
       }
+
       numbersArray.forEach(function (item) {
-        newPhotosArray.push(currentXhr[item]);
+        newPhotosArray.push(serverArray[item]);
       });
       createPhotosNode(newPhotosArray);
     });
