@@ -4,6 +4,8 @@
 
   var createPhotosNode = window.gallery.createPhotosNode;
   var changePhotoFilters = window.gallery.changePhotoFilters;
+  var showFullPicture = window.picture.showFullPicture;
+  var createCommentsNode = window.picture.createCommentsNode;
 
   var CODE = {
     SUCCESS: 200,
@@ -23,6 +25,9 @@
     if (xhr.status === CODE.SUCCESS) {
       createPhotosNode(xhr.response);
       changePhotoFilters(xhr.response);
+      showFullPicture(xhr.response);
+      createCommentsNode(xhr.response);
+      console.log(xhr.response);
     } else {
       // alert('Ошибка ' + xhr.status + xhr.statusText + ' в ответе сервера');
     }

@@ -32,6 +32,8 @@
     userPicture.appendChild(fragment);
   }
 
+
+
   function showPopularPhoto(photos) {
     return photos;
   }
