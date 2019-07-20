@@ -16,7 +16,7 @@
     element.querySelector('.picture__comments').textContent = photo.comments.length;
   }
 
-  function createPhotosNode(arrayPhotos) {
+  function createPhotosNode(arrayPhotos) { // xhr.response
     var fragment = document.createDocumentFragment();// создание фрагмента
 
     for (var i = 0; i < arrayPhotos.length; i++) {
@@ -25,19 +25,21 @@
 
       fillPhotoHtml(userPhoto, currentPhoto);
 
-      /* var getOnClick = function () {
-        var j = currentPhoto;
+      var getOnClick = function () {
+        var showFullPicture = window.picture.showFullPicture; // *
+        var createCommentsNode = window.picture.createCommentsNode; // *
+        var photo = currentPhoto;
         return function (evt) {
-          console.log(j);
+          evt.preventDefault(); // *
+          createCommentsNode(photo, photo.comments); // *
+          showFullPicture(); // *
         };
-      } */
-
-      // userPhoto.firstElementChild.addEventListener('click', getOnClick());
-
+      };
+      userPhoto.firstElementChild.addEventListener('click', getOnClick());
       fragment.appendChild(userPhoto);
     }
-    var userPicture = document.querySelector('.pictures');
 
+    var userPicture = document.querySelector('.pictures');
     userPicture.appendChild(fragment);
   }
 
@@ -121,6 +123,6 @@
 
   window.gallery = {
     createPhotosNode: createPhotosNode,
-    changePhotoFilters: changePhotoFilters
+    changePhotoFilters: changePhotoFilters,
   };
 })();
