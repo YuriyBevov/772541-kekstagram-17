@@ -25,14 +25,21 @@
 
       fillPhotoHtml(userPhoto, currentPhoto);
 
+      /* var getOnClick = function () {
+        var j = currentPhoto;
+        return function (evt) {
+          console.log(j);
+        };
+      } */
+
+      // userPhoto.firstElementChild.addEventListener('click', getOnClick());
+
       fragment.appendChild(userPhoto);
     }
     var userPicture = document.querySelector('.pictures');
 
     userPicture.appendChild(fragment);
   }
-
-
 
   function showPopularPhoto(photos) {
     return photos;

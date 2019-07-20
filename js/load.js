@@ -25,9 +25,8 @@
     if (xhr.status === CODE.SUCCESS) {
       createPhotosNode(xhr.response);
       changePhotoFilters(xhr.response);
-      showFullPicture(xhr.response);
-      createCommentsNode(xhr.response);
-      console.log(xhr.response);
+      showFullPicture(xhr.response[0]);
+      createCommentsNode(xhr.response[0].comments);
     } else {
       // alert('Ошибка ' + xhr.status + xhr.statusText + ' в ответе сервера');
     }
