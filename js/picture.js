@@ -28,11 +28,12 @@
   };
 
   var imgNode = document.querySelector('.big-picture__img > img');
-  var likesNode = document.querySelector('.likes-count');
-  var commentsCount = document.querySelector('.comments-count');
-  var descriptionNode = document.querySelector('.social__caption');
+  var photoLikesCount = document.querySelector('.likes-count');
+  var commentsCount = document.querySelector('.comments-count'); // общее количество комментариев к фото
+  var photoDescription = document.querySelector('.social__caption');
   document.querySelector('.social__comment-count').classList.add('visually-hidden'); // временно
   document.querySelector('.comments-loader').classList.add('visually-hidden'); // временно
+
   var commentNode = document.querySelector('#social');
 
   function fillPhotoComment(element, comment) {
@@ -50,8 +51,8 @@
 
     imgNode.src = photos.url;
     imgNode.alt = photos.description;
-    descriptionNode.innerText = photos.description;
-    likesNode.innerText = photos.likes;
+    photoDescription.innerText = photos.description;
+    photoLikesCount.innerText = photos.likes;
     commentsCount.innerText = photos.comments.length;
 
     for (var i = 0; i < comments.length; i++) {
@@ -65,6 +66,7 @@
     }
 
     userComments.appendChild(fragment);
+
     showFullPicture();
 
     var COMMENTS_COUNT = 5;
