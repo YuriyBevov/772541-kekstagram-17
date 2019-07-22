@@ -16,19 +16,31 @@
     element.querySelector('.picture__comments').textContent = photo.comments.length;
   }
 
-  function createPhotosNode(arrayPhotos) {
+  function createPhotosNode(arrayPhotos) { // xhr.response
     var fragment = document.createDocumentFragment();// создание фрагмента
+    var photoNode = document.querySelector('#picture');
 
     for (var i = 0; i < arrayPhotos.length; i++) {
-      var userPhoto = document.querySelector('#picture').content.cloneNode(true);
+      var userPhoto = photoNode.content.cloneNode(true);
       var currentPhoto = arrayPhotos[i];
 
       fillPhotoHtml(userPhoto, currentPhoto);
 
+      var getOnClick = function () {
+        var showFullPicture = window.picture.showFullPicture; // *
+        var createCommentsNode = window.picture.createCommentsNode; // *
+        var photo = currentPhoto;
+        return function (evt) {
+          evt.preventDefault(); // *
+          createCommentsNode(photo, photo.comments); // *
+          showFullPicture(); // *
+        };
+      };
+      userPhoto.firstElementChild.addEventListener('click', getOnClick());
       fragment.appendChild(userPhoto);
     }
-    var userPicture = document.querySelector('.pictures');
 
+    var userPicture = document.querySelector('.pictures');
     userPicture.appendChild(fragment);
   }
 
@@ -112,6 +124,6 @@
 
   window.gallery = {
     createPhotosNode: createPhotosNode,
-    changePhotoFilters: changePhotoFilters
+    changePhotoFilters: changePhotoFilters,
   };
 })();
