@@ -28,4 +28,6 @@
     commentsCount.innerHTML = comments.length + ' из ' + comments.length + ' комментариев'; */
   };
 
+
+
 }());
