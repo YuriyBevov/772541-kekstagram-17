@@ -18,9 +18,10 @@
 
   function createPhotosNode(arrayPhotos) { // xhr.response
     var fragment = document.createDocumentFragment();// создание фрагмента
+    var photoNode = document.querySelector('#picture');
 
     for (var i = 0; i < arrayPhotos.length; i++) {
-      var userPhoto = document.querySelector('#picture').content.cloneNode(true);
+      var userPhoto = photoNode.content.cloneNode(true);
       var currentPhoto = arrayPhotos[i];
 
       fillPhotoHtml(userPhoto, currentPhoto);
