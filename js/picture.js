@@ -66,12 +66,11 @@
     }
 
     userComments.appendChild(fragment);
-
     showFullPicture();
 
-    var COMMENTS_COUNT = 5;
+    var VISIBLE_COMMENTS = 5;
 
-    if (commentsArray.length > COMMENTS_COUNT) {
+    if (commentsArray.length > VISIBLE_COMMENTS) {
       hideComments();
     }
   }
