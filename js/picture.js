@@ -29,10 +29,11 @@
 
   var imgNode = document.querySelector('.big-picture__img > img');
   var photoLikesCount = document.querySelector('.likes-count');
-  var commentsCount = document.querySelector('.comments-count'); // общее количество комментариев к фото
+  var currentCommentsCount = document.querySelector('.social__comment-count'); //  надпись количества показанных комментариев
+  // var commentsCount = document.querySelector('.comments-count'); // общее количество комментариев к фото
   var photoDescription = document.querySelector('.social__caption');
-  document.querySelector('.social__comment-count').classList.add('visually-hidden'); // временно
-  document.querySelector('.comments-loader').classList.add('visually-hidden'); // временно
+  // document.querySelector('.social__comment-count').classList.add('visually-hidden'); // временно
+  // document.querySelector('.comments-loader').classList.add('visually-hidden'); // временно
 
   var commentNode = document.querySelector('#social');
 
@@ -42,6 +43,7 @@
   }
 
   function createCommentsNode(photos, comments) { // xhr.response[0], xhr.response[0].comments
+    var VISIBLE_COMMENTS = 5;
     var fragment = document.createDocumentFragment();
     var commentsArray = []; // * для 71й строчки
 
@@ -53,7 +55,7 @@
     imgNode.alt = photos.description;
     photoDescription.innerText = photos.description;
     photoLikesCount.innerText = photos.likes;
-    commentsCount.innerText = photos.comments.length;
+    // commentsCount.innerText = photos.comments.length;
 
     for (var i = 0; i < comments.length; i++) {
       var userComment = commentNode.content.cloneNode(true);
@@ -66,9 +68,17 @@
     }
 
     userComments.appendChild(fragment);
-    showFullPicture();
 
-    var VISIBLE_COMMENTS = 5;
+    var hideCommentsBtn = function () {
+      if (commentsArray.length < VISIBLE_COMMENTS) {
+        document.querySelector('.comments-loader').classList.add('visually-hidden');
+      }
+    };
+
+    currentCommentsCount.innerText = commentsArray.length + ' из ' + photos.comments.length + ' комментариев';
+
+    hideCommentsBtn();
+    showFullPicture();
 
     if (commentsArray.length > VISIBLE_COMMENTS) {
       hideComments();
