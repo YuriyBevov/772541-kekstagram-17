@@ -39,6 +39,11 @@
         visibleComments += hiddenComments.length;
         currentCommentsCount.innerText = visibleComments + ' из ' + commentsCount + ' комментариев';
         document.querySelector('.comments-loader').classList.add('visually-hidden');
+      } else if (hiddenComments.length === VISIBLE_COMMENTS_STEP) {
+        addComments = hiddenComments.length;
+        visibleComments += hiddenComments.length;
+        currentCommentsCount.innerText = visibleComments + ' из ' + commentsCount + ' комментариев';
+        document.querySelector('.comments-loader').classList.add('visually-hidden');
       }
       for (var i = 0; i < addComments; i++) {
         hiddenComments[i].classList.remove('visually-hidden');
