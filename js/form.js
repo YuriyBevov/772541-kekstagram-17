@@ -42,6 +42,7 @@
   var submitBtn = document.querySelector('.img-upload__submit');
 
   function checkValidity() {
+    // evt.preventDefault();
     var MAX_COUNT_OF_TAGS = 5;
     var MAX_LENGTH_OF_TAGS = 20;
 
@@ -49,21 +50,20 @@
 
     for (var i = 0; i < userTags.length; i++) {
 
-        if (userTags.toString().charAt(0) !== '#') {
-          tagInput.setCustomValidity('хэш-тег должен начинаться с символа #');
-        } else if (userTags.toString().length > MAX_LENGTH_OF_TAGS) {
-          tagInput.setCustomValidity('хэш-тег не должен превышать 20 символов');
-        } else if (userTags.toString() === '#') {
-          tagInput.setCustomValidity('хэш-тег не может состоять только из #');
-        } else if (userTags.length > MAX_COUNT_OF_TAGS) {
-          tagInput.setCustomValidity('нельзя указать больше пяти хэш-тегов')
-        } /*else if () {
-          tagInput.setCustomValidity('один и тот же хэш-тег не может быть использован дважды')
-        }*/ else {
-          tagInput.setCustomValidity('');
-        }
+      if (userTags.toString().charAt(0) !== '#') {
+        tagInput.setCustomValidity('хэш-тег должен начинаться с символа #');
+      } else if (userTags.toString().length > MAX_LENGTH_OF_TAGS) {
+        tagInput.setCustomValidity('хэш-тег не должен превышать 20 символов');
+      } else if (userTags.toString() === '#') {
+        tagInput.setCustomValidity('хэш-тег не может состоять только из #');
+      } else if (userTags.length > MAX_COUNT_OF_TAGS) {
+        tagInput.setCustomValidity('нельзя указать больше пяти хэш-тегов');
+      } else {
+        tagInput.setCustomValidity('');
+      } /* else if () {
+        tagInput.setCustomValidity('один и тот же хэш-тег не может быть использован дважды')
+      } */
     }
-    console.log(userTags);
   }
   submitBtn.addEventListener('click', checkValidity);
   preventCloseByESC(tagInput);

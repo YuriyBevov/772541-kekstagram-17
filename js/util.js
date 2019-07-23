@@ -33,7 +33,7 @@
     elem.addEventListener('blur', function () {
       elem.removeEventListener('keydown', escPreventer);
     });
-  }
+  };
 
   var ESC_KEYCODE = 27;
 
