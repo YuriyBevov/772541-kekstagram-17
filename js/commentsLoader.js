@@ -31,24 +31,22 @@
 
     commentsLoaderBtn.addEventListener('click', function () {
       var addComments = 0;
-
+      console.log(hiddenComments.length);
       if (hiddenComments.length > VISIBLE_COMMENTS_STEP) {
-        // console.log(hiddenComments.length);
         addComments = VISIBLE_COMMENTS_STEP;
         visibleComments += VISIBLE_COMMENTS_STEP;
         currentCommentsCount.innerText = visibleComments + ' из ' + commentsCount + ' комментариев';
-        // console.log(hiddenComments.length);
       } else if (hiddenComments.length <= VISIBLE_COMMENTS_STEP) {
         addComments = hiddenComments.length;
         visibleComments += hiddenComments.length;
         currentCommentsCount.innerText = visibleComments + ' из ' + commentsCount + ' комментариев';
-        // console.log(hiddenComments.length);
       }
 
       for (var i = 0; i < addComments; i++) {
         hiddenComments[i].classList.remove('visually-hidden');
       }
       hiddenComments.splice(0, addComments);
+      console.log(hiddenComments.length);
     });
   };
 }());
