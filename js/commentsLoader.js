@@ -13,7 +13,7 @@
     var commentsCount = document.querySelector('.comments-count'); // надпись общего кол-ва комментариев
     var commentsLoaderBtn = document.querySelector('.comments-loader'); // кнопка загрузки комментариев
     var commentsArray = document.querySelectorAll('.social__comment'); // массив комментариев к фото
-    document.querySelector('.comments-loader').classList.remove('visually-hidden');
+    commentsLoaderBtn.classList.remove('visually-hidden');
 
     var VISIBLE_COMMENTS_STEP = 5;
     var visibleComments = 5;
@@ -27,29 +27,28 @@
         hiddenComments.push(commentsArray[i]);
       }
     };
+    showComments();
 
     commentsLoaderBtn.addEventListener('click', function () {
       var addComments = 0;
+
       if (hiddenComments.length > VISIBLE_COMMENTS_STEP) {
+        // console.log(hiddenComments.length);
         addComments = VISIBLE_COMMENTS_STEP;
         visibleComments += VISIBLE_COMMENTS_STEP;
         currentCommentsCount.innerText = visibleComments + ' из ' + commentsCount + ' комментариев';
-      } else if (hiddenComments.length < VISIBLE_COMMENTS_STEP && hiddenComments.length > 0) {
+        // console.log(hiddenComments.length);
+      } else if (hiddenComments.length <= VISIBLE_COMMENTS_STEP) {
         addComments = hiddenComments.length;
         visibleComments += hiddenComments.length;
         currentCommentsCount.innerText = visibleComments + ' из ' + commentsCount + ' комментариев';
-        document.querySelector('.comments-loader').classList.add('visually-hidden');
-      } else if (hiddenComments.length === VISIBLE_COMMENTS_STEP) {
-        addComments = hiddenComments.length;
-        visibleComments += hiddenComments.length;
-        currentCommentsCount.innerText = visibleComments + ' из ' + commentsCount + ' комментариев';
-        document.querySelector('.comments-loader').classList.add('visually-hidden');
+        // console.log(hiddenComments.length);
       }
+
       for (var i = 0; i < addComments; i++) {
         hiddenComments[i].classList.remove('visually-hidden');
       }
       hiddenComments.splice(0, addComments);
     });
-    showComments();
   };
 }());

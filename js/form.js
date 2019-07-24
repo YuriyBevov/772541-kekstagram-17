@@ -38,33 +38,55 @@
   preventCloseByESC(commentInput);
 
   var tagInput = document.querySelector('.text__hashtags');
-  tagInput.setAttribute('value', '');
   var submitBtn = document.querySelector('.img-upload__submit');
 
   function checkValidity() {
-    // evt.preventDefault();
     var MAX_COUNT_OF_TAGS = 5;
-    var MAX_LENGTH_OF_TAGS = 20;
+    var MAX_LENGTH_OF_TAG = 20;
 
-    var userTags = tagInput.value.toLowerCase().split(' ');
+    var inputValue = tagInput.value.toLowerCase().split(' ');
+    var userTags = inputValue.filter(function (item) {
+      return item.trim();
+    });
 
-    for (var i = 0; i < userTags.length; i++) {
+    var uniqueTestArray = [];
 
-      if (userTags.toString().charAt(0) !== '#') {
-        tagInput.setCustomValidity('хэш-тег должен начинаться с символа #');
-      } else if (userTags.toString().length > MAX_LENGTH_OF_TAGS) {
-        tagInput.setCustomValidity('хэш-тег не должен превышать 20 символов');
-      } else if (userTags.toString() === '#') {
-        tagInput.setCustomValidity('хэш-тег не может состоять только из #');
-      } else if (userTags.length > MAX_COUNT_OF_TAGS) {
-        tagInput.setCustomValidity('нельзя указать больше пяти хэш-тегов');
-      } else {
-        tagInput.setCustomValidity('');
-      } /* else if () {
-        tagInput.setCustomValidity('один и тот же хэш-тег не может быть использован дважды')
-      } */
+    if (userTags.length <= MAX_COUNT_OF_TAGS) {
+
+      for (var i = 0; i < userTags.length; i++) {
+
+        if (uniqueTestArray.indexOf(userTags[i]) === -1) {
+          uniqueTestArray.push(userTags[i]);
+          // console.log(uniqueTestArray);
+        }
+
+        if (userTags[i].charAt(0) !== '#') {
+          tagInput.setCustomValidity('хэш-тег должен начинаться с символа #');
+          break;
+        } else if (userTags[i].charAt(1) === '#') {
+          tagInput.setCustomValidity('после # должно идти название хэш-тега');
+          break;
+        } else if (userTags[i].length > MAX_LENGTH_OF_TAG) {
+          tagInput.setCustomValidity('хэш-тег не должен превышать ' + MAX_LENGTH_OF_TAG + ' символов');
+          break;
+        } else if (userTags[i] === '#') {
+          tagInput.setCustomValidity('хэш-тег не может состоять только из #');
+          break;
+        } else if (uniqueTestArray[i] !== userTags[i]) {
+          tagInput.setCustomValidity('один и тот же хэш-тег не может быть использован дважды;');
+          break;
+        } else {
+          tagInput.setCustomValidity('');
+        }
+      }
+    } else {
+      tagInput.setCustomValidity('нельзя указать больше пяти хэш-тегов');
     }
   }
   submitBtn.addEventListener('click', checkValidity);
   preventCloseByESC(tagInput);
 }());
+
+// else if () {
+// tagInput.setCustomValidity('один и тот же хэш-тег не может быть использован дважды')
+// }
