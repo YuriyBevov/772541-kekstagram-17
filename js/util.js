@@ -35,6 +35,11 @@
     });
   };
 
+  var errorBorder = function (elem, message) {
+    elem.style.border = '2px solid red';
+    elem.setCustomValidity(message);
+  };
+
   var ESC_KEYCODE = 27;
 
   window.util = {
@@ -42,6 +47,7 @@
     getRandom: getRandom,
     hideElem: hideElem,
     showElem: showElem,
-    preventCloseByESC: preventCloseByESC
+    preventCloseByESC: preventCloseByESC,
+    errorBorder: errorBorder
   };
 })();
