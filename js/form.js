@@ -12,6 +12,9 @@
   var preventCloseByESC = window.util.preventCloseByESC;
   var error = window.util.errorBorder;
 
+  var formSubmit = document.querySelector('.img-upload__form');
+  formSubmit.setAttribute('action', 'https://js.dump.academy/kekstagram');
+
   var uploadFile = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var closeButton = document.querySelector('#upload-cancel');
@@ -83,6 +86,7 @@
       }
     }
   }
+
   submitBtn.addEventListener('click', checkValidity);
   preventCloseByESC(tagInput);
 }());
