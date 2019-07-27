@@ -10,25 +10,29 @@
   var closeByClick = window.util.closeByClick;
 
   var form = document.querySelector('.img-upload__form');
+  form.setAttribute('name', 'user');
+  form.setAttribute('action', 'https://js.dump.academy/kekstagram');
 
   function sendRequest() {
     // evt.preventDefault();
-    form.setAttribute('name', 'user');
-    form.setAttribute('action', 'https://js.dump.academy/kekstagram');
+
     var formData = new FormData(document.forms.user);
-    console.log(formData);
+    // console.log(formData);
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'form.action');
+    xhr.open('POST', form.action);
+    // console.log(xhr.status);
+
+    xhr.send(formData); // '/formData'
 
     if (xhr.status === 200) {
-      console.log('success');
-      var fragment = document.createDocumentFragment();
-      var successMessage = document.querySelector('#success');
-      var userSuccessMessage = successMessage.content.cloneNode(true);
+      // console.log('success');
+      var successFragment = document.createDocumentFragment();
+      var successMessageNode = document.querySelector('#success');
+      var userSuccessMessage = successMessageNode.content.cloneNode(true);
 
-      fragment.appendChild(userSuccessMessage);
-      main.appendChild(fragment);
+      successFragment.appendChild(userSuccessMessage);
+      document.body.appendChild(successFragment);
 
       var successMessage = document.querySelector('.success');
       var successBtn = document.querySelector('.success__button');
@@ -36,18 +40,18 @@
       successBtn.addEventListener('click', function () {
         successMessage.classList.add('visually-hidden');
       });
-      //document.addEventListener('keydown', function (evt) {
+      // document.addEventListener('keydown', function (evt) {
       //  if (evt.keyCode === ESC_KEYCODE) {
       //    successMessage.classList.add('visually-hidden');
       //  }
-      //});
+      // });
     } else {
-      var fragment = document.createDocumentFragment();
-      var errorMessage = document.querySelector('#error');
-      var userErrorMessage = errorMessage.content.cloneNode(true);
+      var errorFragment = document.createDocumentFragment();
+      var errorMessageNode = document.querySelector('#error');
+      var userErrorMessage = errorMessageNode.content.cloneNode(true);
 
-      fragment.appendChild(userErrorMessage);
-      main.appendChild(fragment);
+      errorFragment.appendChild(userErrorMessage);
+      document.body.appendChild(errorFragment);
 
       var errorMessage = document.querySelector('.error');
       var errorBtn = document.querySelectorAll('.error__button');
@@ -58,12 +62,9 @@
           errorMessage.classList.add('visually-hidden');
         });
       }
-
-      xhr.send(formData);
     }
-
-    window.send = {
-      sendRequest: sendRequest
-    };
   }
+  window.send = {
+    sendRequest: sendRequest
+  };
 })();

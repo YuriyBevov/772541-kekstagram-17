@@ -88,8 +88,9 @@
       }
     }
     sendFormData();
+    hideElem(uploadOverlay);
   }
 
-  submitBtn.addEventListener('click', checkValidity);
+  document.querySelector('.img-upload__form')/* submitBtn */.addEventListener('submit', checkValidity);
   preventCloseByESC(tagInput);
 }());
