@@ -35,6 +35,17 @@
     });
   };
 
+  var closeByClick = function (elem) {
+    document.addEventListener('click', function (evt) {
+      if (evt.target !== elem) {
+        evt.preventDefault();
+        evt.stopPropagation();
+      } else {
+        elem.classList.add('visually-hidden');
+      }
+    });
+  };
+
   var errorBorder = function (elem, message) {
     elem.style.border = '2px solid red';
     elem.setCustomValidity(message);
@@ -48,6 +59,7 @@
     hideElem: hideElem,
     showElem: showElem,
     preventCloseByESC: preventCloseByESC,
-    errorBorder: errorBorder
+    errorBorder: errorBorder,
+    closeByClick: closeByClick
   };
 })();

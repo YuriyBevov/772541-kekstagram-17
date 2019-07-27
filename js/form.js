@@ -11,9 +11,10 @@
   var ESC_KEYCODE = window.util.ESC_KEYCODE;
   var preventCloseByESC = window.util.preventCloseByESC;
   var error = window.util.errorBorder;
+  var sendFormData = window.send.sendRequest;
 
-  var formSubmit = document.querySelector('.img-upload__form');
-  formSubmit.setAttribute('action', 'https://js.dump.academy/kekstagram');
+  // var formSubmit = document.querySelector('.img-upload__form');
+  // formSubmit.setAttribute('action', 'https://js.dump.academy/kekstagram');
 
   var uploadFile = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -45,6 +46,7 @@
   var submitBtn = document.querySelector('.img-upload__submit');
 
   function checkValidity() {
+    // evt.preventDefault();
 
     var MAX_COUNT_OF_TAGS = 5;
     var MAX_LENGTH_OF_TAG = 20;
@@ -85,6 +87,7 @@
         tagInput.setCustomValidity('');
       }
     }
+    sendFormData();
   }
 
   submitBtn.addEventListener('click', checkValidity);
