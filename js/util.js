@@ -39,7 +39,6 @@
     document.addEventListener('click', function (evt) {
       if (evt.target !== elem) {
         evt.preventDefault();
-        evt.stopPropagation();
       } else {
         elem.classList.add('visually-hidden');
       }

@@ -107,7 +107,6 @@
   }
 
   function pinMoveByClick(clickValue) {
-
     var positionByClick = Math.round(clickValue / (sliderLine.offsetWidth / 100)) + '%';
     sliderPin.style.left = positionByClick;
     setSliderLineWidth(positionByClick);
@@ -145,10 +144,8 @@
         return 'brightness(' + brightnessValue + ')';
       }
     };
-
     document.querySelector('.img-upload__preview').style.filter = styles[activeFilter]();
   }
-
   sliderLine.addEventListener('click', onMouseClick);
   sliderPin.addEventListener('mousedown', onMouseDown);
 }());

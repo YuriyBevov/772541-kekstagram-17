@@ -30,7 +30,7 @@
 
   var imgNode = document.querySelector('.big-picture__img > img');
   var photoLikesCount = document.querySelector('.likes-count');
-  var currentCommentsCount = document.querySelector('.social__comment-count'); //  надпись количества показанных комментариев
+  var currentCommentsCount = document.querySelector('.social__comment-count');
   var photoDescription = document.querySelector('.social__caption');
   var commentsLoaderBtn = document.querySelector('.comments-loader');
   var VISIBLE_COMMENTS = 5;
@@ -43,9 +43,14 @@
     element.querySelector('.social__text').innerText = comment.message;
   }
 
+  var getLike = function () {
+    photoLikesCount.innerText = +photoLikesCount.textContent + 1;
+    photoLikesCount.removeEventListener('click', getLike);
+  };
+
   var commentsList;
 
-  function createCommentsNode(photos, comments) { // xhr.response[0], xhr.response[0].comments
+  function createCommentsNode(photos, comments) {
     commentsList = comments;
 
     if (comments.length <= VISIBLE_COMMENTS) {
@@ -65,6 +70,7 @@
 
     showFullPicture();
     loadComments();
+    photoLikesCount.addEventListener('click', getLike);
   }
 
   var printComments = function (comments) {

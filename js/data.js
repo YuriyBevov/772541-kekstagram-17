@@ -40,9 +40,9 @@
     var localComments = [];
 
     for (var i = 0; i < window.data.comments.length; i++) {
-      var avatar = 'url:(img/' + getRandom(1, window.data.comments.length) + '.svg)'; // случайная аватарка
-      var name = window.data.names[getRandom(0, window.data.names.length - 1)]; // случайное имя из массива имен
-      var comment = window.data.comments[getRandom(0, window.data.comments.length - 1)]; // случайный комментарий
+      var avatar = 'url:(img/' + getRandom(1, window.data.comments.length) + '.svg)';
+      var name = window.data.names[getRandom(0, window.data.names.length - 1)];
+      var comment = window.data.comments[getRandom(0, window.data.comments.length - 1)];
 
       localComments.push({avatar: avatar, name: name, comment: comment});
     }
@@ -51,10 +51,10 @@
 
   var getPhotoComments = function () {
     var arrayComments = createCommentArray();
-    var currentComment = []; // массив с комментариями к текущей фотографии
+    var currentComment = [];
     var randomCount = getRandom(0, arrayComments.length);
 
-    for (var i = 0; i < randomCount; i++) { // случайный выбор кол-ва комментариев, макс = длине comments
+    for (var i = 0; i < randomCount; i++) {
       currentComment.push(arrayComments[i]);
     }
     return currentComment.length;

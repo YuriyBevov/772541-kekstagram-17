@@ -16,8 +16,8 @@
     element.querySelector('.picture__comments').textContent = photo.comments.length;
   }
 
-  function createPhotosNode(arrayPhotos) { // xhr.response
-    var fragment = document.createDocumentFragment();// создание фрагмента
+  function createPhotosNode(arrayPhotos) {
+    var fragment = document.createDocumentFragment();
     var photoNode = document.querySelector('#picture');
 
     for (var i = 0; i < arrayPhotos.length; i++) {
@@ -27,13 +27,13 @@
       fillPhotoHtml(userPhoto, currentPhoto);
 
       var getOnClick = function () {
-        var showFullPicture = window.picture.showFullPicture; // *
-        var createCommentsNode = window.picture.createCommentsNode; // *
+        var showFullPicture = window.picture.showFullPicture;
+        var createCommentsNode = window.picture.createCommentsNode;
         var photo = currentPhoto;
         return function (evt) {
-          evt.preventDefault(); // *
-          createCommentsNode(photo, photo.comments); // *
-          showFullPicture(); // *
+          evt.preventDefault();
+          createCommentsNode(photo, photo.comments);
+          showFullPicture();
         };
       };
       userPhoto.firstElementChild.addEventListener('click', getOnClick());
