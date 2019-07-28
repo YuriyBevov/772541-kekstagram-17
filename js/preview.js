@@ -7,13 +7,13 @@
 
 (function () {
 
-  var effectsList = ['effects__preview--none',
+  /* var effectsList = ['effects__preview--none',
     'effects__preview--chrome',
     'effects__preview--sepia',
     'effects__preview--marvin',
     'effects__preview--phobos',
     'effects__preview--heat'
-  ];
+  ]; */
 
   var effectsButton = document.querySelectorAll('.effects__radio');
   var imgPreview = document.querySelector('.img-upload__preview');
@@ -21,48 +21,44 @@
   var sliderLine = document.querySelector('.effect-level__line');
   var sliderLineDepth = document.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
-  var MAX_VALUE = 100 + '%';
+  var MAX_VALUE = 100;
+  var MIN_VALUE = 25;
 
-  var activeFilter;
+  var activeFilter = 'effects__preview--none';
 
-  function picturePreview () {
+  function picturePreview() {
 
-    activeFilter = 'effects__preview--none';
     imgPreview.classList.add(activeFilter);
-    effectsButton[0].setAttribute('checked', true);
     document.querySelector('.effect-level').classList.add('hidden');
+    // document.querySelector('.effects__radio').setAttribute('checked', false);
+    effectsButton[0].setAttribute('checked', true);
 
+    var setPictureStyle = function (evt) {
+      setPictureAttributes(evt.target.value);
+      var sliderControls = document.querySelector('.effect-level');
+
+      if (activeFilter === 'effects__preview--none') {
+        sliderControls.classList.add('hidden');
+      } else {
+        sliderControls.classList.remove('hidden');
+      }
+    };
     for (var i = 0; i < effectsButton.length; i++) {
-
-      var onChangeListener = function () {
-        var j = i;
-
-        return function () {
-          imgPreview.classList.remove(activeFilter);
-          sliderPin.style.left = MAX_VALUE;
-          effectLevelValue.value = MAX_VALUE;
-          sliderLineDepth.style.width = MAX_VALUE;
-          imgPreview.style.filter = '';
-          imgPreview.classList.add(effectsList[j]);
-          activeFilter = effectsList[j];
-
-          var sliderControls = document.querySelector('.effect-level');
-
-          if (activeFilter === 'effects__preview--none') {
-            sliderControls.classList.add('hidden');
-          } else {
-            sliderControls.classList.remove('hidden');
-          }
-        };
-      };
-      effectsButton[i].addEventListener('click', onChangeListener());
+      effectsButton[i].addEventListener('change', setPictureStyle);
     }
-    console.log(activeFilter);
   }
-window.preview = {
-  picturePreview: picturePreview
-}
-  // picturePreview();
+
+  function setPictureAttributes(filter) {
+    imgPreview.style.filter = '';
+    sliderPin.style.left = MAX_VALUE + '%';
+    sliderLineDepth.style.width = MAX_VALUE + '%';
+    effectLevelValue.value = MAX_VALUE;
+    imgPreview.classList.remove(activeFilter);
+    imgPreview.classList.add('effects__preview--' + filter);
+    activeFilter = 'effects__preview--' + filter;
+  }
+
+  picturePreview();
 
   var onMouseClick = function (evt) {
     evt.preventDefault();
@@ -117,8 +113,8 @@ window.preview = {
       positionByShift = 0;
       effectLevelValue.value = 0;
     } if (sliderMinValue > sliderMaxValue) {
-      positionByShift = MAX_VALUE;
-      effectLevelValue.value = MAX_VALUE;
+      positionByShift = MAX_VALUE + '%';
+      effectLevelValue.value = MAX_VALUE + '%';
     }
 
     sliderPin.style.left = positionByShift;
@@ -143,6 +139,10 @@ window.preview = {
     var BRIGHTNESS_SECOND_AUX_VALUE = 1;
 
     var styles = {
+      'effects__preview--none': function () {
+        document.querySelector('.effect-level').classList.add('hidden');
+      },
+
       'effects__preview--chrome': function () {
         var chromeValue = position / width;
         return 'grayscale(' + chromeValue + ')';
@@ -167,10 +167,8 @@ window.preview = {
     document.querySelector('.img-upload__preview').style.filter = styles[activeFilter]();
   }
 
-  function setScale () {
-    var MAX_VALUE = 100;
+  function setScale() {
     var SCALE_STEP = 25;
-    var MIN_VALUE = 25;
 
     var scaleValue = document.querySelector('.scale__control--value');
     var scaleSmaller = document.querySelector('.scale__control--smaller');
@@ -179,19 +177,24 @@ window.preview = {
     scaleValue.value = currentScaleValue + '%';
     var img = document.querySelector('.img-upload__preview > img');
 
-    function setOptions () {
+    function setScaleValue() {
+      img.style.transform = 'scale(' + currentScaleValue / 100 + ')';
+    }
+    setScaleValue();
+
+    function setOptions() {
       scaleValue.value = currentScaleValue + '%';
-      img.style.transform = 'scale(' + currentScaleValue/100 + ')';
+      img.style.transform = 'scale(' + currentScaleValue / 100 + ')';
     }
 
-    function getSmaller () {
+    function getSmaller() {
       if (currentScaleValue > MIN_VALUE) {
         currentScaleValue -= SCALE_STEP;
         setOptions(currentScaleValue);
       }
     }
 
-    function getBigger () {
+    function getBigger() {
       if (currentScaleValue < MAX_VALUE) {
         currentScaleValue += SCALE_STEP;
         setOptions(currentScaleValue);
@@ -200,9 +203,22 @@ window.preview = {
 
     scaleSmaller.addEventListener('click', getSmaller);
     scaleBigger.addEventListener('click', getBigger);
-  };
+  }
 
-  setScale();
+  function formReset() {
+    setPictureAttributes('none');
+    // sliderPin.style.left = MAX_VALUE;
+    // effectLevelValue.value = MAX_VALUE;
+    // sliderLineDepth.style.width = MAX_VALUE;
+    // imgPreview.style.filter = '';
+    setScale();
+    picturePreview();
+  }
+
   sliderLine.addEventListener('click', onMouseClick);
   sliderPin.addEventListener('mousedown', onMouseDown);
+
+  window.preview = {
+    formReset: formReset
+  };
 }());

@@ -12,7 +12,7 @@
     var fileChooser = document.querySelector('.img-upload__start input[type=file]');
     var preview = document.querySelector('.img-upload__preview > img');
 
-    //fileChooser.addEventListener('change', function () {
+    // fileChooser.addEventListener('change', function () {
     var file = fileChooser.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -28,8 +28,8 @@
       });
       reader.readAsDataURL(file);
     }
-  }
-  window.fileReader= {
+  };
+  window.fileReader = {
     fileReader: fileReader
-  }
+  };
 })();
