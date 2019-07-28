@@ -68,7 +68,7 @@
     photoDescription.innerText = photos.description;
     photoLikesCount.innerText = photos.likes;
 
-    showFullPicture();
+    // showFullPicture();
     loadComments();
     photoLikesCount.addEventListener('click', getLike);
   }

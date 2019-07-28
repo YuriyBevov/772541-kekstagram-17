@@ -12,13 +12,18 @@
   var preventCloseByESC = window.util.preventCloseByESC;
   var error = window.util.errorBorder;
   var sendFormData = window.send.sendFormData;
+  var fileReader = window.fileReader.fileReader;
+  var picturePreview = window.preview.picturePreview;
 
   var uploadFile = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var closeButton = document.querySelector('#upload-cancel');
+  var imgPreview = document.querySelector('.img-upload__preview');
 
   uploadFile.addEventListener('change', function (evt) {
     evt.preventDefault();
+    fileReader();
+    picturePreview();
     showElem(uploadOverlay);
   });
 
