@@ -26,12 +26,12 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === CODE.SUCCESS) {
         onLoad();
-        var success = new SucessModal('.success');
-        // console.log(success);
+        var success = new SucessModal('success');
         success.show();
       } else {
         onLoad();
-
+        var error = new SucessModal('error');
+        error.show();
       }
     });
   }

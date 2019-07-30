@@ -7,47 +7,48 @@
 
 (function () {
 
-  // var closeByClick = window.util.closeByClick;
   var ESC_KEYCODE = window.util.ESC_KEYCODE;
   var pageMain = document.querySelector('main');
 
-  var SuccessModal = function (successID) {
-    var successFragment = document.createDocumentFragment();
+  var SuccessModal = function (templateType) {
 
-    var successMessageNode = document.querySelector('#success');
+    var template = document.querySelector('#' + templateType).content.cloneNode(true);
 
-    var userSuccessMessage = successMessageNode.content.cloneNode(true);
+    pageMain.appendChild(template);
 
-    successFragment.appendChild(userSuccessMessage);
+    this.messageNode = pageMain.querySelector('.' + templateType);
+    this.closeBtn = pageMain.querySelectorAll('.' + templateType + '__button');
+  };
 
-    pageMain.appendChild(successFragment);
+  SuccessModal.prototype.show = function () {
 
-    var modalWindow = document.querySelector(successID);
-    modalWindow.classList.add('visually-hidden');
+    var _this = this;
 
-    this.show = function () {
-      modalWindow.classList.remove('visually-hidden');
-
-      var successMessage = document.querySelector(successID);
-      var successBtn = document.querySelector('.success__button');
-
-      this.hide = function () {
-        // closeByClick(successMessage); // работает не корректно
-
-        document.addEventListener('keydown', function (evt) {
-          if (evt.keyCode === ESC_KEYCODE) {
-            successMessage.classList.add('visually-hidden');
-          }
-        });
-
-        var onClickHandler = function () {
-          successMessage.classList.add('visually-hidden');
-          successBtn.removeEventListener('click', onClickHandler);
-        };
-        successBtn.addEventListener('click', onClickHandler);
-      };
-      this.hide();
+    var onClickHandler = function () {
+      _this.messageNode.classList.add('visually-hidden');
+      _this.messageNode.parentNode.removeChild(_this.messageNode);
     };
+
+    for (var i = 0; i < this.closeBtn.length; i++) {
+      this.closeBtn[i].addEventListener('click', onClickHandler);
+    }
+
+    var onPressEsc = function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        onClickHandler();
+        document.removeEventListener('keydown', onPressEsc);
+      }
+    };
+
+    document.addEventListener('keydown', onPressEsc);
+
+    var closeByClick = function (evt) {
+      if (evt.target === _this.messageNode) {
+        onClickHandler();
+        document.removeEventListener('click', closeByClick);
+      }
+    };
+    document.addEventListener('click', closeByClick);
   };
 
   window.successModal = {
