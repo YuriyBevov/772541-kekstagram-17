@@ -29,11 +29,13 @@
       var getOnClick = function () {
         var showFullPicture = window.picture.showFullPicture;
         var createCommentsNode = window.picture.createCommentsNode;
+        var loadComments = window.picture.loadComments;
         var photo = currentPhoto;
         return function (evt) {
           evt.preventDefault();
           createCommentsNode(photo, photo.comments);
           showFullPicture();
+          loadComments();
         };
       };
       userPhoto.firstElementChild.addEventListener('click', getOnClick());

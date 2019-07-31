@@ -16,6 +16,7 @@
 
   var showFullPicture = function () {
     showElem(picture);
+
     document.addEventListener('keydown', function (escEvt) {
       if (escEvt.keyCode === ESC_KEYCODE) {
         hideElem(picture);
@@ -27,6 +28,8 @@
       commentsPointer = 0;
     });
   };
+
+  // showFullPicture();
 
   var imgNode = document.querySelector('.big-picture__img > img');
   var photoLikesCount = document.querySelector('.likes-count');
@@ -67,9 +70,6 @@
     imgNode.alt = photos.description;
     photoDescription.innerText = photos.description;
     photoLikesCount.innerText = photos.likes;
-
-    // showFullPicture();
-    loadComments();
     photoLikesCount.addEventListener('click', getLike);
   }
 
@@ -94,7 +94,7 @@
     }
     printComments(commentsList.slice(commentsPointer, currentCommentCount));
     commentsPointer = currentCommentCount;
-    currentCommentsCount.innerText = commentsPointer + ' из ' + commentsList.length + ' комментариев';
+    currentCommentsCount.innerText = currentCommentCount + ' из ' + commentsList.length + ' комментариев';
     return commentsList.length - currentCommentCount;
   };
 
@@ -110,6 +110,7 @@
 
   window.picture = {
     showFullPicture: showFullPicture,
-    createCommentsNode: createCommentsNode
+    createCommentsNode: createCommentsNode,
+    loadComments: loadComments
   };
 }());

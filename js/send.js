@@ -27,11 +27,11 @@
       if (xhr.status === CODE.SUCCESS) {
         onLoad();
         var success = new SucessModal('success');
-        success.show();
+        success.hide();
       } else {
         onLoad();
         var error = new SucessModal('error');
-        error.show();
+        error.hide();
       }
     });
   }

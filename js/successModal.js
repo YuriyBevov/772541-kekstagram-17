@@ -20,13 +20,18 @@
     this.closeBtn = pageMain.querySelectorAll('.' + templateType + '__button');
   };
 
-  SuccessModal.prototype.show = function () {
+  SuccessModal.prototype.hide = function () {
 
     var _this = this;
 
     var onClickHandler = function () {
-      _this.messageNode.classList.add('visually-hidden');
       _this.messageNode.parentNode.removeChild(_this.messageNode);
+      deleteListeners();
+    };
+
+    var deleteListeners = function () {
+      document.removeEventListener('keydown', onPressEsc);
+      document.removeEventListener('click', closeByClick);
     };
 
     for (var i = 0; i < this.closeBtn.length; i++) {

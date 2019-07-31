@@ -25,13 +25,15 @@
     fileReader();
     formReset();
     showElem(uploadOverlay);
+    document.addEventListener('keydown', closeFormWithEsc);
   });
 
-  document.addEventListener('keydown', function (escEvt) {
+  var closeFormWithEsc = function (escEvt) {
     if (escEvt.keyCode === ESC_KEYCODE) {
       hideElem(uploadOverlay);
+      document.removeEventListener('keydown', closeFormWithEsc);
     }
-  });
+  };
 
   closeButton.addEventListener('click', function () {
     hideElem(uploadOverlay);
@@ -94,6 +96,7 @@
     evt.preventDefault();
     sendFormData(form, function () {
       hideElem(uploadOverlay);
+      document.removeEventListener('keydown', closeFormWithEsc);
     });
   });
   submitBtn.addEventListener('click', checkValidity);
