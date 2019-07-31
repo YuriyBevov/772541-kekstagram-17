@@ -26,7 +26,6 @@
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', form.action);
-
     xhr.send(formData);
 
     xhr.addEventListener('load', function () {
