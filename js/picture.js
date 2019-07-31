@@ -40,7 +40,6 @@
   var commentsLoaderBtn = document.querySelector('.comments-loader');
   var VISIBLE_COMMENTS = 5;
   var commentsPointer = 0;
-
   var commentNode = document.querySelector('#social');
 
   var fillPhotoComment = function (element, comment) {
