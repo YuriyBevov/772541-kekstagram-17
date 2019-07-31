@@ -49,6 +49,5 @@
     showElem: showElem,
     preventCloseByESC: preventCloseByESC,
     errorBorder: errorBorder
-    // closeByClick: closeByClick
   };
 })();

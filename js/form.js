@@ -37,6 +37,7 @@
 
   closeButton.addEventListener('click', function () {
     hideElem(uploadOverlay);
+    document.removeEventListener('keydown', closeFormWithEsc);
   });
 
   var commentInput = document.querySelector('.text__description');
@@ -49,7 +50,7 @@
   var tagInput = document.querySelector('.text__hashtags');
   var submitBtn = document.querySelector('.img-upload__submit');
 
-  function checkValidity() {
+  var checkValidity = function () {
 
     var MAX_COUNT_OF_TAGS = 5;
     var MAX_LENGTH_OF_TAG = 20;
@@ -89,7 +90,7 @@
       }
     }
     tagInput.setCustomValidity('');
-  }
+  };
 
   var form = document.querySelector('.img-upload__form');
   form.addEventListener('submit', function (evt) {

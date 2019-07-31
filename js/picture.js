@@ -17,19 +17,21 @@
   var showFullPicture = function () {
     showElem(picture);
 
-    document.addEventListener('keydown', function (escEvt) {
+    var closePictureWithEsc = function (escEvt) {
       if (escEvt.keyCode === ESC_KEYCODE) {
         hideElem(picture);
         commentsPointer = 0;
+        document.removeEventListener('keydown', closePictureWithEsc);
       }
-    });
+    };
+
+    document.addEventListener('keydown', closePictureWithEsc);
+
     closeBtn.addEventListener('click', function () {
       hideElem(picture);
       commentsPointer = 0;
     });
   };
-
-  // showFullPicture();
 
   var imgNode = document.querySelector('.big-picture__img > img');
   var photoLikesCount = document.querySelector('.likes-count');
@@ -41,19 +43,20 @@
 
   var commentNode = document.querySelector('#social');
 
-  function fillPhotoComment(element, comment) {
+  var fillPhotoComment = function (element, comment) {
     element.querySelector('.social__picture').src = comment.avatar;
     element.querySelector('.social__text').innerText = comment.message;
-  }
+  };
 
-  var getLike = function () {
-    photoLikesCount.innerText = +photoLikesCount.textContent + 1;
-    photoLikesCount.removeEventListener('click', getLike);
+  var addLike = function () {
+    var LIKE = 1;
+    photoLikesCount.innerText = +photoLikesCount.textContent + LIKE;
+    photoLikesCount.removeEventListener('click', addLike);
   };
 
   var commentsList;
 
-  function createCommentsNode(photos, comments) {
+  var createCommentsNode = function (photos, comments) {
     commentsList = comments;
 
     if (comments.length <= VISIBLE_COMMENTS) {
@@ -70,8 +73,8 @@
     imgNode.alt = photos.description;
     photoDescription.innerText = photos.description;
     photoLikesCount.innerText = photos.likes;
-    photoLikesCount.addEventListener('click', getLike);
-  }
+    photoLikesCount.addEventListener('click', addLike);
+  };
 
   var printComments = function (comments) {
     var fragment = document.createDocumentFragment();

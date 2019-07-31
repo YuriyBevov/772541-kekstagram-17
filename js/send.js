@@ -8,14 +8,20 @@
 (function () {
 
   var SucessModal = window.successModal.successModal;
-  // var errorModalShow = window.modal.errorModalShow;
 
   var CODE = {
     SUCCESS: 200
   };
 
+  var isSending = false;
+
   function sendFormData(form, onLoad) {
 
+    if (isSending) {
+      return;
+    }
+
+    isSending = true;
     var formData = new FormData(form);
 
     var xhr = new XMLHttpRequest();
@@ -24,6 +30,7 @@
     xhr.send(formData);
 
     xhr.addEventListener('load', function () {
+      isSending = false;
       if (xhr.status === CODE.SUCCESS) {
         onLoad();
         var success = new SucessModal('success');

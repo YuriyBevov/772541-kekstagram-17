@@ -10,13 +10,13 @@
   var getRandom = window.util.getRandom;
   var debounce = window.debounce;
 
-  function fillPhotoHtml(element, photo) {
+  var fillPhotoHtml = function (element, photo) {
     element.querySelector('.picture__img').setAttribute('src', photo.url);
     element.querySelector('.picture__likes').textContent = photo.likes;
     element.querySelector('.picture__comments').textContent = photo.comments.length;
-  }
+  };
 
-  function createPhotosNode(arrayPhotos) {
+  var createPhotosNode = function (arrayPhotos) {
     var fragment = document.createDocumentFragment();
     var photoNode = document.querySelector('#picture');
 
@@ -44,13 +44,13 @@
 
     var userPicture = document.querySelector('.pictures');
     userPicture.appendChild(fragment);
-  }
+  };
 
-  function showPopularPhoto(photos) {
+  var showPopularPhoto = function (photos) {
     return photos;
-  }
+  };
 
-  function showNewPhotos(photos) {
+  var showNewPhotos = function (photos) {
 
     var numbersArray = [];
     var newPhotosArray = [];
@@ -67,17 +67,17 @@
       newPhotosArray.push(photos[item]);
     });
     return newPhotosArray;
-  }
+  };
 
-  function showDiscussedPhotos(photos) {
+  var showDiscussedPhotos = function (photos) {
     var discussedPhotos = photos.slice();
     discussedPhotos.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
     return discussedPhotos;
-  }
+  };
 
-  function changePhotoFilters(photos) {
+  var changePhotoFilters = function (photos) {
 
     var imgFilters = document.querySelector('.img-filters');
     imgFilters.classList.remove('img-filters--inactive');
@@ -122,7 +122,7 @@
     filterBtns.forEach(function (filterBtn) {
       filterBtn.addEventListener('click', handleFilterBtnClick);
     });
-  }
+  };
 
   window.gallery = {
     createPhotosNode: createPhotosNode,
