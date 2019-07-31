@@ -68,7 +68,6 @@
     }
 
     for (var i = 0; i < userTags.length; i++) {
-
       if (uniqueTestArray.indexOf(userTags[i]) === -1) {
         uniqueTestArray.push(userTags[i]);
       }
