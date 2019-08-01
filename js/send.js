@@ -7,7 +7,7 @@
 
 (function () {
 
-  var SucessModal = window.successModal.successModal;
+  var StatusMessage = window.successModal.successModal;
 
   var CODE = {
     SUCCESS: 200
@@ -32,12 +32,12 @@
       isSending = false;
       if (xhr.status === CODE.SUCCESS) {
         onLoad();
-        var success = new SucessModal('success');
-        success.hide();
+        var success = new StatusMessage('success');
+        successLoad.hide();
       } else {
         onLoad();
-        var error = new SucessModal('error');
-        error.hide();
+        var error = new StatusMessage('error');
+        errorLoad.hide();
       }
     });
   }
