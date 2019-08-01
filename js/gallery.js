@@ -62,7 +62,6 @@
         numbersArray.push(randomNumber);
       }
     }
-
     numbersArray.forEach(function (item) {
       newPhotosArray.push(photos[item]);
     });
