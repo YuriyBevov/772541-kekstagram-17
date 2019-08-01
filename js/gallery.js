@@ -117,6 +117,7 @@
         createPhotosNode(filteringFunction(photos));
       });
     };
+
     var filterBtns = document.querySelectorAll('.img-filters__button');
     filterBtns.forEach(function (filterBtn) {
       filterBtn.addEventListener('click', handleFilterBtnClick);
