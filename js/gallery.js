@@ -51,11 +51,11 @@
   };
 
   var showNewPhotos = function (photos) {
-
+    var PHOTOS_COUNT = 10;
     var numbersArray = [];
     var newPhotosArray = [];
 
-    while (numbersArray.length < 10) {
+    while (numbersArray.length < PHOTOS_COUNT) {
       var randomNumber = getRandom(0, photos.length - 1);
 
       if (numbersArray.indexOf(randomNumber) === -1) {
